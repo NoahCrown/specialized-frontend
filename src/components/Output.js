@@ -82,11 +82,35 @@ const Output = () => {
   return (
     <div className=" overflow-scroll no-scrollbar w-[37.5%] bg-[#F5F5F5]  flex  p-6 flex-col gap-4 max-h-[145vh]  min-h-[145vh] border-r-2 border-solid border-[#D1D5DB]">
       <div className="mt-10">
-        <div className="flex justify-between mb-5">
-          <h1 className="text-3xl font-bold">Output</h1>
+        <div className="flex flex- justify-between items-center mb-5">
+          <div className="">
+            <h1 className="text-3xl font-bold">Output</h1>
+            </div>
+
+          <div className="flex gap-4 w-[60%]">
+            <button
+            onClick={handleShowPDF}
+            className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-1/2 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+          >
+            <i class="fa-regular fa-eye"></i> View PDF
+          </button>
+            <button className="w-1/2 bg-black text-white rounded-md">
+              Push to Bullhorn
+            </button>
+
+          
+
+          </div>
+          
+          
+          
+        </div>
+        <div className="flex justify-between border-4 border-solid border=[#919191] px-4 py-2 rounded-md items-center mb-2">
+        <p className="text-[#919191] italic text-[1rem]">{mode === "CV" || mode === "CV_bullhorn" ? 'Parsed with Offshorly parser' : 'Parsed with Bullhorn'}</p>
+
           {mode === "bullhorn" && isNewData ? (
             <button
-              className="border border-[#ababab] border-dashed text-[#ababab] bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+              className="border border-black border-solid text-black bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
               onClick={parseBullhornData}
             >
               <i className="fa-solid fa-code"></i> Parse
@@ -94,19 +118,14 @@ const Output = () => {
           ) : (
           !isNewData &&  (mode === 'bullhorn' || mode === 'CV_bullhorn') &&
             <button
-              className="border border-[#ababab] border-dashed text-[#ababab] bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+              className="border border-black border-solid text-black bg-[#F5F5F5] w-1/3 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
               onClick={switchData}
             >
-              Switch Parser
+              <i class="fa-solid fa-up-down"></i> Switch Parser
             </button>
           )}
-          <button
-            onClick={handleShowPDF}
-            className="border border-[#ababab] border-dashed text-[#ababab] bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
-          >
-            <i className="fa-regular fa-file-pdf"></i> View PDF
-          </button>
-        </div>
+
+          </div>
         {promptResult && promptResult.length > 0 ? (
             <AnalyzerOutput />
           ) : (

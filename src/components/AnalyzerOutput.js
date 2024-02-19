@@ -17,7 +17,6 @@ const AnalyzerOutput = () => {
   return (
     <>
       <p className="text-[#919191] ">Resume information</p>
-      <p className="text-[#919191] text-[.75rem]">{mode === "CV" || mode === "CV_bullhorn" ? 'Parsed with Offshorly parser' : 'Parsed with Bullhorn'}</p>
       {/* Personal Information  */}
       <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">
         <p className="text-black py-2 font-semibold">Personal Information</p>
