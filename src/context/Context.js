@@ -124,11 +124,6 @@ export const CandidateProvider = ({ children }) => {
     }
   };
 
-  // Open DocX Context 
-  const handleOpenDocxInNewTab = (base64Docx) => {
-
-  };
-
 
 
   // Epoch To Date
@@ -203,6 +198,16 @@ export const CandidateProvider = ({ children }) => {
   const setResume = (data) => {
     setResumeFiles(data)
   }
+
+  // Clear the output field 
+  const clearOutput = () => {
+    setInferedLang(null)
+    setInfered(null)
+    setInferedLoc(null)
+    setResume(null)
+
+
+  }
  
 
   
@@ -233,7 +238,6 @@ export const CandidateProvider = ({ children }) => {
       isLoading,
       setDataLoader,
       handleOpenPdfInNewTab,
-      handleOpenDocxInNewTab,
       epochToDateString,
       setDataInfer,
       agePrompts,
@@ -254,6 +258,7 @@ export const CandidateProvider = ({ children }) => {
       setThisNewData,
       resumeFiles,
       setResume,
+      clearOutput
       }}>
       {children}
     </Context.Provider>

@@ -3,9 +3,11 @@ import axios from 'axios';
 import {toast } from 'react-toastify';
 import { useCandidate } from '../context/Context';
 const PDFInfo = ({id, first_name, last_name, position, active}) => {
-  const { setCandidate,setOutput, setInferedLang, setInfered, setModeOfData, setInferedLoc, setDataLoader, setDisplayBullhorn,
-    setResume, setThisNewData } = useCandidate();
+  const { setCandidate,setOutput, setModeOfData, setDataLoader, setDisplayBullhorn, setThisNewData, clearOutput } = useCandidate();
 
+
+
+ 
   
   const handleClick = async () => {
     console.log(id)
@@ -20,13 +22,9 @@ const PDFInfo = ({id, first_name, last_name, position, active}) => {
       setCandidate(id);
       setOutput(response.data)
       setDisplayBullhorn(response.data)
-      
-      setInferedLang(null)
-      setInfered(null)
-      setInferedLoc(null)
       setModeOfData("bullhorn")
       setThisNewData(true)
-      setResume(null)
+      clearOutput()
 
 
       console.log(response.data);

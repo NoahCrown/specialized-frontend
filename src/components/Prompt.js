@@ -8,7 +8,6 @@ const Prompt = () => {
   const {
     dataToInfer,
     setDataInfer,
-    savedPrompts,
     setAgePromptInputs,
     setLanguagePromptInputs,
     setLocationPromptInputs,

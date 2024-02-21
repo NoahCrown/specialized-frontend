@@ -17,6 +17,7 @@ const Output = () => {
     setThisNewData,
     resumeFiles,
     setResume,
+    handleOpenPdfInNewTab
   } = useCandidate();
 
   const [parsedBullhornData, setParsedBullhornData] = useState(null);
@@ -25,8 +26,9 @@ const Output = () => {
   const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
 
   const toggleFileChoices = async () => {
-    if (resumeFiles) {
-      setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
+      if (resumeFiles){
+        setIsCVFileSelectorVisible(!isCVFileSelectorVisible)
+      }
 
       try {
         const response = await axios.post("/api/get_pdf", {
@@ -34,14 +36,14 @@ const Output = () => {
           mode: mode,
         });
         setResume(response.data.files);
+        console.log(response.data.files)
         setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
       } catch (error) {
-        // Handle errors
-        console.error("Error sending POST request:", error);
+        console.error(error);
         toast.warn("Error: CV format isn't supported");
       }
-    }
   };
+
 
   const switchData = () => {
     setShowParsedData(!showParsedData);
@@ -69,6 +71,7 @@ const Output = () => {
       setCandidateId(promptResult[0].id);
       toast.success("Successfully parsed bullhorn data.");
     } catch (error) {
+      console.log(error)
       setDataLoader(false);
       toast.warn("Error: Resume format is not supported");
     }
@@ -81,7 +84,6 @@ const Output = () => {
           <div className="">
             <h1 className="text-3xl font-bold">Output</h1>
           </div>
-
           {promptResult && (
             <>
               <div className="flex gap-4 w-[60%]">
@@ -105,8 +107,8 @@ const Output = () => {
             </p>
             <div className="flex gap-4">
               {resumeFiles.map((val, index) => (
-                <button key={index}>{val.type}</button>
-              ))}
+                <button onClick={() => handleOpenPdfInNewTab(val.candidateFile)} key={index}>{val.type}</button>
+              ))} 
             </div>
           </div>
         )}
