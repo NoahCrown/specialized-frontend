@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
+
 const Context = createContext();
 
 export const CandidateProvider = ({ children }) => {
@@ -123,6 +124,13 @@ export const CandidateProvider = ({ children }) => {
     }
   };
 
+  // Open DocX Context 
+  const handleOpenDocxInNewTab = (base64Docx) => {
+
+  };
+
+
+
   // Epoch To Date
   function epochToDateString(epochTime) {
     // Check if epochTime is a valid number
@@ -190,6 +198,13 @@ export const CandidateProvider = ({ children }) => {
     setIsNewData(data)
   }
 
+  // Resume Files Context 
+  const [resumeFiles, setResumeFiles] = useState(null)
+  const setResume = (data) => {
+    setResumeFiles(data)
+  }
+ 
+
   
 
 
@@ -218,6 +233,7 @@ export const CandidateProvider = ({ children }) => {
       isLoading,
       setDataLoader,
       handleOpenPdfInNewTab,
+      handleOpenDocxInNewTab,
       epochToDateString,
       setDataInfer,
       agePrompts,
@@ -235,7 +251,10 @@ export const CandidateProvider = ({ children }) => {
       loaderContext,
       setLoaderDetails,
       isNewData,
-      setThisNewData}}>
+      setThisNewData,
+      resumeFiles,
+      setResume,
+      }}>
       {children}
     </Context.Provider>
   );
