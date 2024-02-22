@@ -205,10 +205,15 @@ export const CandidateProvider = ({ children }) => {
     setInfered(null)
     setInferedLoc(null)
     setResume(null)
-
-
   }
- 
+ // Toggle File List Context
+  const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
+  const setToggleFileList = () => {
+    setIsCVFileSelectorVisible(!isCVFileSelectorVisible)
+  }
+
+  console.log(isCVFileSelectorVisible)
+
 
   
 
@@ -258,7 +263,9 @@ export const CandidateProvider = ({ children }) => {
       setThisNewData,
       resumeFiles,
       setResume,
-      clearOutput
+      clearOutput,
+      setToggleFileList,
+      isCVFileSelectorVisible
       }}>
       {children}
     </Context.Provider>

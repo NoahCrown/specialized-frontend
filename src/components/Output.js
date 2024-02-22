@@ -16,34 +16,13 @@ const Output = () => {
     isNewData,
     setThisNewData,
     resumeFiles,
-    setResume,
-    handleOpenPdfInNewTab
+    handleOpenPdfInNewTab,
+    isCVFileSelectorVisible,
+    setToggleFileList
   } = useCandidate();
 
   const [parsedBullhornData, setParsedBullhornData] = useState(null);
   const [showParsedData, setShowParsedData] = useState(false);
-  const [candidateId, setCandidateId] = useState(null);
-  const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
-
-  const toggleFileChoices = async () => {
-      if (resumeFiles){
-        setIsCVFileSelectorVisible(!isCVFileSelectorVisible)
-      }
-
-      try {
-        const response = await axios.post("/api/get_pdf", {
-          candidateId: promptResult[0].id || candidateId || null,
-          mode: mode,
-        });
-        setResume(response.data.files);
-        console.log(response.data.files)
-        setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
-      } catch (error) {
-        console.error(error);
-        toast.warn("Error: CV format isn't supported");
-      }
-  };
-
 
   const switchData = () => {
     setShowParsedData(!showParsedData);
@@ -68,7 +47,6 @@ const Output = () => {
       setParsedBullhornData(response.data);
       setDataLoader(false);
       setThisNewData(false);
-      setCandidateId(promptResult[0].id);
       toast.success("Successfully parsed bullhorn data.");
     } catch (error) {
       console.log(error)
@@ -88,7 +66,7 @@ const Output = () => {
             <>
               <div className="flex gap-4 w-[60%]">
                 <button
-                  onClick={toggleFileChoices}
+                  onClick={setToggleFileList}
                   className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-1/2 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
                 >
                   <i class="fa-regular fa-eye"></i> View CV
@@ -100,14 +78,15 @@ const Output = () => {
             </>
           )}
         </div>
-        {isCVFileSelectorVisible && Array.isArray(resumeFiles) && (
-          <div>
-            <p className="text-[.80rem] text-[#8F8F8F] w-full text-left">
+        {isCVFileSelectorVisible === true && Array.isArray(resumeFiles) && (
+          <div className="border-4 border-solid border=[#919191] px-4 py-2 rounded-md items-center mb-2">
+            <p className="text-[.80rem] text-[#8F8F8F] w-full text-left block mb-2">
               Candidate Files:
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-start flex-wrap items-center">
               {resumeFiles.map((val, index) => (
-                <button onClick={() => handleOpenPdfInNewTab(val.candidateFile)} key={index}>{val.type}</button>
+                <button className=" rounded-md border-[.09rem] border-solid border-black p-2" onClick={() => handleOpenPdfInNewTab(val.candidateFile)} key={index}>
+                <i class="fa-regular fa-file mr-1"></i> {val.fileName}</button>
               ))} 
             </div>
           </div>

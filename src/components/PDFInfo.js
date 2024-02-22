@@ -3,14 +3,10 @@ import axios from 'axios';
 import {toast } from 'react-toastify';
 import { useCandidate } from '../context/Context';
 const PDFInfo = ({id, first_name, last_name, position, active}) => {
-  const { setCandidate,setOutput, setModeOfData, setDataLoader, setDisplayBullhorn, setThisNewData, clearOutput } = useCandidate();
+  const { setCandidate,setOutput, setModeOfData, setDataLoader, setDisplayBullhorn, setThisNewData, clearOutput, setResume,
+     mode } = useCandidate();
 
-
-
- 
-  
   const handleClick = async () => {
-    console.log(id)
     setDataLoader(true)
     
     try {
@@ -18,22 +14,28 @@ const PDFInfo = ({id, first_name, last_name, position, active}) => {
       const response = await axios.post('/api/get_candidate', {
         candidateId: id, 
       });
-      setDataLoader(false)
       setCandidate(id);
-      setOutput(response.data)
-      setDisplayBullhorn(response.data)
-      setModeOfData("bullhorn")
-      setThisNewData(true)
-      clearOutput()
+      await setModeOfData("bullhorn");
+      clearOutput();
+      setOutput(response.data);
+      setDisplayBullhorn(response.data);
+      setThisNewData(true);
+
+      const responsePDF = await axios.post("/api/get_pdf", {
+        candidateId:  id || null,
+        mode: mode,
+      });
+      setResume(responsePDF.data.files);
+      setDataLoader(false);
+      console.log(responsePDF.data.files)
 
 
-      console.log(response.data);
-    } catch (error) {
-      // Handle errors
-      console.error('Error sending POST request:', error);
-      setDataLoader(false)
-      toast.warn('Error: Data unavailable, please try again.')
+      } catch (error) {
+      console.error(error);
+      setDataLoader(false);
+      toast.warn('Error: Data unavailable, please try again.');
     }
+    
   };
 
   return (
