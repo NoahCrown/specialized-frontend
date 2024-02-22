@@ -4,7 +4,7 @@ import Output from './components/Output'
 import Prompt from "./components/Prompt";
 import { useEffect } from "react";
 import axios from 'axios'
-import { useCandidate } from './context/Context';
+import { useCandidate } from './store/Context';
 import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
 import { API_URL } from "./config";

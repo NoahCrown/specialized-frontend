@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCandidate } from "../context/Context";
+import { useCandidate } from "../store/Context";
 import axios from "axios";
 
 import PromptInput from "./PromptInput";

@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import axios from 'axios';
-import { useCandidate } from '../context/Context';
+import { useCandidate } from '../store/Context';
 import { toast } from 'react-toastify';
 
 
@@ -120,7 +120,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
         
       >
         <div className='rounded-full bg-[#CECECE] w-[8%] flex justify-center items-start p-2 '>
-          <img src={require('../img/pdf_icon.png')} alt='pdf-icon' className='w-[60%]'/>
+          <img src={require('../assets/pdf_icon.png')} alt='pdf-icon' className='w-[60%]'/>
         </div>
         <input className='focus:outline-none' placeholder={`Version ${label}`} />
         {isTextboxVisible ? (

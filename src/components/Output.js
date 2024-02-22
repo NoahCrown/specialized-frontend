@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCandidate } from "../context/Context";
+import { useCandidate } from "../store/Context";
 import axios from "axios";
 import AnalyzerOutput from "./AnalyzerOutput";
 import { toast } from "react-toastify";
@@ -126,7 +126,7 @@ const Output = () => {
         ) : (
           <div className="w-full flex justify-center items-center flex-col min-h-[80vh]">
             <img
-              src={require("../img/no-data.png")}
+              src={require("../assets/no-data.png")}
               alt="svg-no-data"
               className="w-1/3"
             />

@@ -1,5 +1,5 @@
 import React from "react";
-import { useCandidate } from "../context/Context";
+import { useCandidate } from "../store/Context";
 
 const AnalyzerOutput = () => {
   const {
