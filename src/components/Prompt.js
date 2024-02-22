@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCandidate } from "../store/Context";
 import axios from "axios";
 
-import PromptInput from "./PromptInput";
+import PromptInput from "./Prompt/PromptInput";
 
 const Prompt = () => {
   const {
@@ -32,7 +32,6 @@ const Prompt = () => {
         const response = await axios.post(`/api/get_prompt/${i}`, {
           dataToInfer: dataInfer,
         });
-        console.log(response.data.prompt)
 
         return response.data.prompt;
       } catch (err) {
@@ -47,7 +46,6 @@ const Prompt = () => {
         });
     
         if (response.data) {
-          console.log(response.data)
           await setSavedPromptsData(response.data);
           const { age, languageSkills, location } = response.data;
     

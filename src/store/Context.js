@@ -83,17 +83,18 @@ export const CandidateProvider = ({ children }) => {
     setMode(data)
   }
 
-  // Search bar Context
-  const [inputValue, setInputValue] = useState("");
-  const setSearch = (data) => {
-    setInputValue(data)
-  }
-
   // Search Result Context
   const [searchResults, setSearchResults] = useState([]);
   const setSearchData = (data) => {
     setSearchResults(data)
   }
+
+  // Missing Data Search Result 
+  const [missingDataToSearch, setMissingDataToSearch] = useState(null);
+  const setSearchMissingData = (data) => {
+    setMissingDataToSearch(data)
+  }
+
 
   // Data loading Loader Context
   const [isLoading, setIsLoading] = useState(false)
@@ -123,6 +124,9 @@ export const CandidateProvider = ({ children }) => {
       // }
     }
   };
+
+  // Search Result data
+
 
 
 
@@ -265,7 +269,10 @@ export const CandidateProvider = ({ children }) => {
       setResume,
       clearOutput,
       setToggleFileList,
-      isCVFileSelectorVisible
+      isCVFileSelectorVisible,
+      setSearchData,
+      missingDataToSearch,
+      setSearchMissingData
       }}>
       {children}
     </Context.Provider>
