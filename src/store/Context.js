@@ -1,23 +1,21 @@
-import React, { createContext, useContext, useState } from 'react';
-
+import React, { createContext, useContext, useState } from "react";
 
 const Context = createContext();
 
 export const CandidateProvider = ({ children }) => {
-
   // Data Context
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
   const setAllData = (data) => {
-    setData(data)
-  }
+    setData(data);
+  };
 
   // File Upload Context
   const [selectedFile, setSelectedFile] = useState(null);
 
   const setUploadFile = (file) => {
-    setSelectedFile(file)
-  }
+    setSelectedFile(file);
+  };
 
   // Candidate ID Context
   const [candidateId, setCandidateId] = useState(null);
@@ -27,89 +25,86 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Output Display Context
-  const [promptResult, setPromptResult] = useState(null)
+  const [promptResult, setPromptResult] = useState(null);
 
   const setOutput = (data) => {
-    setPromptResult(data)
-  }
+    setPromptResult(data);
+  };
 
   // Output Parsed Data Context
-  const [parsedData, setParsedData] = useState(null)
+  const [parsedData, setParsedData] = useState(null);
 
   const setBHParsedData = (data) => {
-    setPromptResult(data)
-  }
+    setPromptResult(data);
+  };
 
   // Ouput Default Bullhorn Data Context
-  const [defaultBullhornData, setDefaultBullhornData] = useState(null)
+  const [defaultBullhornData, setDefaultBullhornData] = useState(null);
 
   const setDisplayBullhorn = (data) => {
-    setDefaultBullhornData(data)
-  }
+    setDefaultBullhornData(data);
+  };
 
   // Select Data To Infer Context
-  const [dataToInfer, setDataToInfer] = useState('');
+  const [dataToInfer, setDataToInfer] = useState("");
 
   const setDataInfer = (data) => {
-    setDataToInfer(data)
-  }
+    setDataToInfer(data);
+  };
 
   // Infered Age Data Context
-  const [inferedData, setInferedData] = useState(null)
+  const [inferedData, setInferedData] = useState(null);
 
   const setInfered = (data) => {
-    setInferedData(data)
-  }
+    setInferedData(data);
+  };
 
   // Infered Language Proficiency Context
-  const [inferedLangProficiency, setInferedLangProficiency] = useState(null)
-  
-  const setInferedLang = (data) => {
-    setInferedLangProficiency(data)
-  }
+  const [inferedLangProficiency, setInferedLangProficiency] = useState(null);
 
+  const setInferedLang = (data) => {
+    setInferedLangProficiency(data);
+  };
 
   // Infered Location Data Context
-  const [inferedLocation, setInferedLocation] = useState(null)
+  const [inferedLocation, setInferedLocation] = useState(null);
 
   const setInferedLoc = (data) => {
-    setInferedLocation(data)
-  }
-
+    setInferedLocation(data);
+  };
 
   // Mode of Data Context
-  const [mode, setMode] = useState(null)
+  const [mode, setMode] = useState(null);
   const setModeOfData = (data) => {
-    setMode(data)
-  }
+    setMode(data);
+  };
 
   // Search Result Context
   const [searchResults, setSearchResults] = useState([]);
   const setSearchData = (data) => {
-    setSearchResults(data)
-  }
+    setSearchResults(data);
+  };
 
-  // Missing Data Search Result 
+  // Missing Data Search Result
   const [missingDataToSearch, setMissingDataToSearch] = useState(null);
   const setSearchMissingData = (data) => {
-    setMissingDataToSearch(data)
-  }
-
+    setMissingDataToSearch(data);
+  };
 
   // Data loading Loader Context
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const setDataLoader = (bool) => {
-    setIsLoading(bool)
-  }
+    setIsLoading(bool);
+  };
 
   // Opening PDF Logic Context
   const handleOpenPdfInNewTab = (base64Pdf) => {
     try {
       var pdfData = `data:application/pdf;base64,${base64Pdf}`;
-  
+
       var w = window.open("");
-  
+
       if (w) {
         w.document.write(
           `<embed width="100%" height="100%" src="${pdfData}" type="application/pdf" />`
@@ -127,14 +122,11 @@ export const CandidateProvider = ({ children }) => {
 
   // Search Result data
 
-
-
-
   // Epoch To Date
   function epochToDateString(epochTime) {
     // Check if epochTime is a valid number
     if (isNaN(epochTime) || epochTime < 0) {
-        return "Invalid Epoch Time";
+      return "Invalid Epoch Time";
     }
 
     // Convert epoch time to milliseconds (JavaScript uses milliseconds)
@@ -142,32 +134,30 @@ export const CandidateProvider = ({ children }) => {
 
     // Check if the resulting date is valid
     if (isNaN(date.getTime())) {
-        return "Invalid Date";
+      return "Invalid Date";
     }
 
     // Extract the year, month, and day
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
-    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+    const day = date.getDate().toString().padStart(2, "0");
 
     // Create a formatted date string
     const dateString = `${year}-${month}-${day}`;
 
     return dateString;
-}
-
-
-  // Prompts Context 
-  const [agePrompts, setAgePrompts] = useState([])
-  const setAgePromptInputs = (data) => {
-    setAgePrompts(data)
   }
+
+  // Prompts Context
+  const [agePrompts, setAgePrompts] = useState([]);
+  const setAgePromptInputs = (data) => {
+    setAgePrompts(data);
+  };
 
   const [languagePrompts, setLanguagePrompts] = useState([]); // State for language prompts
   const setLanguagePromptInputs = (data) => {
     setLanguagePrompts(data);
   };
-
 
   const [locationPrompts, setLocationPrompts] = useState([]); // State for location prompts
   const setLocationPromptInputs = (data) => {
@@ -176,113 +166,109 @@ export const CandidateProvider = ({ children }) => {
 
   // Saved Prompts Context
   const [savedPrompts, setSavedPrompts] = useState({
-    'age': 0,
-    'languageSkills': 0,
-    'location': 0
-  })
+    age: 0,
+    languageSkills: 0,
+    location: 0,
+  });
 
   const setSavedPromptsData = (data) => {
-    setSavedPrompts(data)
-
-  }
+    setSavedPrompts(data);
+  };
 
   // Loader Info Context
-  const [loaderContext, setLoaderContext] = useState('')
+  const [loaderContext, setLoaderContext] = useState("");
   const setLoaderDetails = (data) => {
-    setLoaderContext(data)
-  }
+    setLoaderContext(data);
+  };
 
-  const [isNewData, setIsNewData] = useState(false)
+  const [isNewData, setIsNewData] = useState(false);
   const setThisNewData = (data) => {
-    setIsNewData(data)
-  }
+    setIsNewData(data);
+  };
 
-  // Resume Files Context 
-  const [resumeFiles, setResumeFiles] = useState(null)
+  // Resume Files Context
+  const [resumeFiles, setResumeFiles] = useState(null);
   const setResume = (data) => {
-    setResumeFiles(data)
-  }
+    setResumeFiles(data);
+  };
 
-  // Clear the output field 
+  // Clear the output field
   const clearOutput = () => {
-    setInferedLang(null)
-    setInfered(null)
-    setInferedLoc(null)
-    setResume(null)
-  }
- // Toggle File List Context
+    setInferedLang(null);
+    setInfered(null);
+    setInferedLoc(null);
+    setResume(null);
+  };
+  // Toggle File List Context
   const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
   const setToggleFileList = () => {
-    setIsCVFileSelectorVisible(!isCVFileSelectorVisible)
-  }
+    setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
+  };
 
-  console.log(isCVFileSelectorVisible)
-
-
-  
-
-
+  console.log(isCVFileSelectorVisible);
 
   return (
-    <Context.Provider value={{ 
-      candidateId, 
-      setCandidate, 
-      promptResult, 
-      setPromptResult, 
-      setOutput,
-      searchResults, 
-      dataToInfer,  
-      setInfered, 
-      inferedData, 
-      inferedLangProficiency, 
-      setInferedLang,
-      inferedLocation,
-      setInferedLoc,
-      mode,
-      setModeOfData,
-      data,
-      setAllData,
-      selectedFile,
-      setUploadFile,
-      isLoading,
-      setDataLoader,
-      handleOpenPdfInNewTab,
-      epochToDateString,
-      setDataInfer,
-      agePrompts,
-      languagePrompts,
-      locationPrompts,
-      setAgePromptInputs,
-      setLanguagePromptInputs,
-      setLocationPromptInputs,
-      savedPrompts, 
-      setSavedPromptsData,
-      parsedData,
-      setBHParsedData,
-      defaultBullhornData,
-      setDisplayBullhorn,
-      loaderContext,
-      setLoaderDetails,
-      isNewData,
-      setThisNewData,
-      resumeFiles,
-      setResume,
-      clearOutput,
-      setToggleFileList,
-      isCVFileSelectorVisible,
-      setSearchData,
-      missingDataToSearch,
-      setSearchMissingData
-      }}>
+    <Context.Provider
+      value={{
+        candidateId,
+        setCandidate,
+        promptResult,
+        setPromptResult,
+        setOutput,
+        searchResults,
+        dataToInfer,
+        setInfered,
+        inferedData,
+        inferedLangProficiency,
+        setInferedLang,
+        inferedLocation,
+        setInferedLoc,
+        mode,
+        setModeOfData,
+        data,
+        setAllData,
+        selectedFile,
+        setUploadFile,
+        isLoading,
+        setDataLoader,
+        handleOpenPdfInNewTab,
+        epochToDateString,
+        setDataInfer,
+        agePrompts,
+        languagePrompts,
+        locationPrompts,
+        setAgePromptInputs,
+        setLanguagePromptInputs,
+        setLocationPromptInputs,
+        savedPrompts,
+        setSavedPromptsData,
+        parsedData,
+        setBHParsedData,
+        defaultBullhornData,
+        setDisplayBullhorn,
+        loaderContext,
+        setLoaderDetails,
+        isNewData,
+        setThisNewData,
+        resumeFiles,
+        setResume,
+        clearOutput,
+        setToggleFileList,
+        isCVFileSelectorVisible,
+        setSearchData,
+        missingDataToSearch,
+        setSearchMissingData,
+      }}
+    >
       {children}
     </Context.Provider>
   );
 };
 
 export const useCandidate = () => {
-    const context = useContext(Context);
-    if (!context) {
-      throw new Error('useCandidate must be used within a CandidateProvider');
-    }
-    return context;
-  };
+  const context = useContext(Context);
+  if (!context) {
+    throw new Error("useCandidate must be used within a CandidateProvider");
+  }
+  return context;
+};

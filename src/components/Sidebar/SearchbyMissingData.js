@@ -1,12 +1,16 @@
 import React from 'react'
 import Select from "react-select";
 import { useCandidate } from "../../store/Context";
+import axios from 'axios';
+import { toast } from "react-toastify";
 
 
 
 const SearchbyMissingData = () => {
     const {
-        setSearchMissingData
+        setSearchMissingData,
+        missingDataToSearch,
+        setSearchData
       } = useCandidate();
 
     
@@ -16,10 +20,39 @@ const SearchbyMissingData = () => {
     { value: "location", label: "location" },
   ];
 
-    const handleMissingDataSearch = (event) => {
-        const selectedValues = Array.from(event, (option) => option.value);
+    const handleMissingDataSearch = async(event,{ action }) => {
+      action === "clear" && handleClearSearch() ;
+      const selectedValues = Array.from(event, (option) => option.value);
         console.log(selectedValues);
-        setSearchMissingData(selectedValues);
+        await setSearchMissingData(selectedValues);
+      };
+
+      const handleSearch = () => {
+        console.log(missingDataToSearch)
+        // Make a POST request to the API using Axios
+        axios
+          .post("/api/filter_data", 
+          { missingFields: missingDataToSearch,
+           },
+
+          )
+          .then((response) => {
+            // Handle the successful response
+            setSearchData(response.data);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            // Handle errors here
+            console.error(error);
+          });
+      };
+
+
+    const handleClearSearch = () => {
+        setSearchData([]);
+        setSearchMissingData(null)
+        toast.success("Cleared search");
+        // console.log('ty')
       };
   return (
     <div className="flex justify-center items-center flex-col gap-2 w-[80%] py-4 border-solid border-b-2 border-[#E7E7E7]">
@@ -39,6 +72,7 @@ const SearchbyMissingData = () => {
           </form>
           <button
             className="bg-black text-white w-full rounded-md p-2 hover:cursor-pointer "
+            onClick={handleSearch}
           >
             Search
           </button>
