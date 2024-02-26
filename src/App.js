@@ -8,12 +8,13 @@ import { useCandidate } from './store/Context';
 import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
 import { API_URL } from "./config";
+import PushToBullorn from "./components/Output/PushToBullorn";
 
 
 
 
 function App() {
-  const { setAllData, isLoading } = useCandidate();
+  const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +35,10 @@ function App() {
     <div className="App flex bg-white items-center flex-row box-border">
     {isLoading && 
         <ModalLoader/> }
+    {
+      isPushingToBullhorn && <PushToBullorn/>
+    }
+      
 
 
       <Sidebar/>

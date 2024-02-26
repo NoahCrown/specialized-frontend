@@ -98,6 +98,12 @@ export const CandidateProvider = ({ children }) => {
     setIsLoading(bool);
   };
 
+  // Pushing to bullhorn Modal
+  const [isPushingToBullhorn, setIsPushingToBullhorn] = useState(false)
+  const showPushingModal = (data) => {
+    setIsPushingToBullhorn(!isPushingToBullhorn)
+  }
+
   // Opening PDF Logic Context
   const handleOpenPdfInNewTab = (base64Pdf) => {
     try {
@@ -199,6 +205,7 @@ export const CandidateProvider = ({ children }) => {
     setInferedLoc(null);
     setResume(null);
   };
+
   // Toggle File List Context
   const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
   const setToggleFileList = () => {
@@ -258,6 +265,8 @@ export const CandidateProvider = ({ children }) => {
         setSearchData,
         missingDataToSearch,
         setSearchMissingData,
+        isPushingToBullhorn,
+        showPushingModal
       }}
     >
       {children}

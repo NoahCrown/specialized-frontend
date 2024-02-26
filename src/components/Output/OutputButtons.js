@@ -9,6 +9,7 @@ const OutputButtons = () => {
         resumeFiles,
         handleOpenPdfInNewTab,
         isCVFileSelectorVisible,
+        showPushingModal
       } = useCandidate();
   return (
     <>
@@ -25,7 +26,8 @@ const OutputButtons = () => {
                 >
                   <i class="fa-regular fa-eye"></i> View CV
                 </button>
-                <button className="w-1/2 bg-black text-white rounded-md">
+                <button className="w-1/2 bg-black text-white rounded-md"
+                onClick={showPushingModal}>
                   Push to Bullhorn
                 </button>
               </div>
