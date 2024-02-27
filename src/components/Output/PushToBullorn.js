@@ -16,14 +16,13 @@ const PushToBullorn = () => {
       ];
 
       const handleChangeDataToBePushed = async(event,{ action }) => {
-        // action === "clear" && handleClearSearch() ;
         const selectedValues = Array.from(event, (option) => option.value);
           console.log(selectedValues);
           await setDataToBePushed(selectedValues);
         };
 
   return (
-    <div className="absolute flex justify-center items-center w-full  min-h-[149vh] backdrop-blur-sm backdrop-brightness-50	 z-50">
+    <div className="absolute flex justify-center items-center w-full  min-h-[160vh] backdrop-blur-sm backdrop-brightness-50	 z-50">
       <div className="absolute flex justify-center w-full h-1/2">
         <dialog open id="modal" className=" flex flex-col justify-center gap-2 absolute min-w-[45%] max-w-[45%] min-h-[55vh] max-h-[55vh] m p-[2rem] border-0 rounded-lg text-[#919191]">
          <h1 className='text-black text-2xl text-center'>Push To Bullhorn</h1>
@@ -38,7 +37,7 @@ const PushToBullorn = () => {
 
             />
         <p className='font-bold'>Name of Candidate: </p>
-        <span>{promptResult[0].firstName}</span>
+        <span>{promptResult[0].firstName + promptResult[0].lastName }</span>
         <p className='font-bold'>Inferred Data To be Pushed: </p>
         {dataToBePushed?.includes('age') && 
         <>
@@ -56,10 +55,19 @@ const PushToBullorn = () => {
 
         {dataToBePushed?.includes('languageSkills') && 
         <>
-        <p>Inferred Language Skills: {inferedLangProficiency ? inferedLangProficiency.languageSkills : 'No Data Avaiable, please infer before pushing.'} </p>
-        <p>Inferred Language Skills AI Confidence: {inferedLangProficiency ? inferedLangProficiency.confidence : 'No Data Avaiable, please infer before pushing.'}</p>
+        {inferedLangProficiency.languageSkills.map((val, index) => (
+          <>
+          <p>Language: {val.Language}</p>
+          <p>Language Proficiency: {val.enProficiency || val.jpProficiency}</p>
+          <p>AI Confidence: {val.confidence}</p>
+          </>
+          
+        ))}
 
-        </>}
+
+        </>
+
+      }
 
          <button onClick={showPushingModal}>Close</button>
         </dialog>

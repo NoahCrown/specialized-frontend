@@ -123,21 +123,36 @@ const UploadCV = () => {
                   onChange={handleFileChange}
                   ref={fileInputRef}
                 />
-                <label id="upload-text">
-                  <span class="text-[.75rem] text-[#919191]" id="upload-click">
+                <label id="upload-text" className="text-center">
+                  <span class="text-[.75rem] text-[#919191] block " id="upload-click">
                     Upload a CV from your computer
+                  </span>
+                  <span class="text-[.75rem] text-[#919191] text-center" id="upload-click">
+                    Click on me to upload
+
                   </span>
                 </label>
               </>
             )}
           </div>
-
-          <button
+{
+  selectedFile ? 
+  <button
             className="rounded-md bg-black text-white px-8 font-bold py-3 text-[.75rem]"
             onClick={handleUpload}
-          >
-            Upload
-          </button>
+          >Upload</button>
+          :
+          <input
+                  type="file"
+                  accept="application/pdf"
+                  name="pdfFile"
+                  className="upload-button hidden w-full"
+                  onChange={handleFileChange}
+                  ref={fileInputRef}
+                />
+          
+}
+          
         </div>
       </div>
     </div>

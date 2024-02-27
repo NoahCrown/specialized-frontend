@@ -1,5 +1,7 @@
 import React from 'react'
 import { useCandidate } from "../../store/Context";
+import ParserInfo from './ParserInfo';
+import { base64Decode, base64Encode } from 'base64topdf';
 
 
 const OutputButtons = () => {
@@ -9,8 +11,10 @@ const OutputButtons = () => {
         resumeFiles,
         handleOpenPdfInNewTab,
         isCVFileSelectorVisible,
-        showPushingModal
+        showPushingModal, mode,selectedFile
+
       } = useCandidate();
+      // const base64PDF = base64Decode(selectedFile)
   return (
     <>
     <div className="flex flex- justify-between items-center mb-5">
@@ -21,7 +25,7 @@ const OutputButtons = () => {
             <>
               <div className="flex gap-4 w-[60%]">
                 <button
-                  onClick={setToggleFileList}
+                  onClick={mode === "CV" ? () => handleOpenPdfInNewTab() : setToggleFileList}
                   className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-1/2 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
                 >
                   <i class="fa-regular fa-eye"></i> View CV
@@ -34,6 +38,7 @@ const OutputButtons = () => {
             </>
           )}
         </div>
+
         {isCVFileSelectorVisible === true && Array.isArray(resumeFiles) && (
             <div className="border-4 border-solid border=[#919191] px-4 py-2 rounded-md items-center mb-2">
               <p className="text-[.80rem] text-[#8F8F8F] w-full text-left block mb-2">
@@ -52,6 +57,8 @@ const OutputButtons = () => {
               </div>
             </div>
           )}
+
+          <ParserInfo/>
           </>
   )
 }

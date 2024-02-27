@@ -16,8 +16,10 @@ const SearchbyMissingData = () => {
     
   const options = [
     { value: "age", label: "Age" },
-    { value: "languageSkills", label: "languageSkill" },
+    { value: "languageSkillsEN", label: "Language Skills EN" },
+    { value: "languageSkillsJP", label: "Language Skills JP" },
     { value: "location", label: "location" },
+    {}
   ];
 
     const handleMissingDataSearch = async(event,{ action }) => {
@@ -29,7 +31,6 @@ const SearchbyMissingData = () => {
 
       const handleSearch = () => {
         console.log(missingDataToSearch)
-        // Make a POST request to the API using Axios
         axios
           .post("/api/filter_data", 
           { missingFields: missingDataToSearch,
@@ -37,12 +38,10 @@ const SearchbyMissingData = () => {
 
           )
           .then((response) => {
-            // Handle the successful response
             setSearchData(response.data);
             console.log(response.data);
           })
           .catch((error) => {
-            // Handle errors here
             console.error(error);
           });
       };

@@ -18,6 +18,7 @@ const ParserInfo = () => {
   } = useCandidate();
   const [parsedBullhornData, setParsedBullhornData] = useState(null);
   const [showParsedData, setShowParsedData] = useState(false);
+  console.log(mode)
 
   const switchData = () => {
     setShowParsedData(!showParsedData);

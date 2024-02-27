@@ -42,7 +42,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
       })
       .then((response) => {
         if (response.data && dataToInfer === "age") {
-          setInfered(response.data);
+          setInfered(response.data, mode);
           setDataLoader(false);
           toast.success("Successfully inferred Age Data.");
         } else if (response.data && dataToInfer === "languageSkills") {
@@ -125,7 +125,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
           </div>
           <input
             className="focus:outline-none"
-            placeholder={`Version ${label}`}
+            placeholder={label ? `Version ${label}` : 'New Prompt'}
           />
           {isTextboxVisible ? (
             <i className="fa-solid fa-minus"></i>
