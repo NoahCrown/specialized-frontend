@@ -15,7 +15,7 @@ import PushToBullorn from "./components/Output/PushToBullorn";
 
 function App() {
   const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
-
+  require('dotenv').config()
   useEffect(() => {
     async function fetchData() {
       try {
