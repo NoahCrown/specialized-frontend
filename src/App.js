@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useCandidate } from './store/Context';
 import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
-// import { API_URL } from "./config";
+import { API_URL } from "./config";
 import PushToBullorn from "./components/Output/PushToBullorn";
 
 
@@ -15,7 +15,6 @@ import PushToBullorn from "./components/Output/PushToBullorn";
 
 function App() {
   const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
-  require('dotenv').config()
   useEffect(() => {
     async function fetchData() {
       try {
