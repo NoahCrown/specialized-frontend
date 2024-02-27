@@ -14,11 +14,14 @@ const SearchbyMissingData = () => {
       } = useCandidate();
 
     
-  const options = [
-    { value: "age", label: "Age" },
-    { value: "languageSkills", label: "languageSkill" },
-    { value: "location", label: "location" },
-  ];
+      const options = [
+        { value: "age", label: "Age" },
+        { value: "languageSkills", label: "languageSkill" },
+        { value: "languageSkillsEN", label: "Language Skills EN" },
+        { value: "languageSkillsJP", label: "Language Skills JP" },
+        { value: "location", label: "location" },
+        {}
+      ];
 
     const handleMissingDataSearch = async(event,{ action }) => {
       action === "clear" && handleClearSearch() ;

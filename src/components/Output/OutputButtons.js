@@ -1,5 +1,6 @@
 import React from 'react'
 import { useCandidate } from "../../store/Context";
+import ParserInfo from '../Output/ParserInfo'
 
 
 const OutputButtons = () => {
@@ -52,6 +53,7 @@ const OutputButtons = () => {
               </div>
             </div>
           )}
+          <ParserInfo/>
           </>
   )
 }

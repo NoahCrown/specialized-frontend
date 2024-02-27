@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useCandidate } from "../../store/Context";
-const PDFInfo = ({ id, first_name, last_name, position, active }) => {
+const PDFInfo = ({ id, first_name, last_name, status, active }) => {
   const {
     setCandidate,
     setOutput,
@@ -58,7 +58,7 @@ const PDFInfo = ({ id, first_name, last_name, position, active }) => {
         <h3 className="font-bold">
           {first_name && last_name ? `${first_name} ${last_name}` : "N/A"}
         </h3>
-        <p className="text-[#919191]">{position}</p>
+        <p className="text-[#919191]">{status}</p>
         <button
           className="font-bold underline hover:cursor-pointer text-left"
           onClick={handleClick}
