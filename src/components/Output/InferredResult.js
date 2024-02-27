@@ -2,9 +2,8 @@ import React from "react";
 import { useCandidate } from "../../store/Context";
 
 const InferredResult = () => {
-  const { inferedData, inferedLangProficiency, inferedLocation, mode } =
+  const { inferedData, inferedLangProficiency, inferedLocation } =
     useCandidate();
-    console.log(inferedData)
   return (
     <>
       {/* Inferred Age  */}
@@ -14,7 +13,6 @@ const InferredResult = () => {
           <div className="flex flex-wrap items-center">
             <p className="w-1/4 inline-block">Inferred Age:</p>
             <span className="text-[#919191] w-3/4 inline-block">
-
               {inferedData?.properties?.Age || inferedData?.Age}
             </span>
           </div>

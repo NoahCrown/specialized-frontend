@@ -10,12 +10,11 @@ const SearchResult = () => {
         data,
         searchResults,
       } = useCandidate();
-      console.log(data)
     var settings = {
         infinite: false,
-        speed: 600,
+        speed: 700,
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 2,
         arrows: false,
         slidesPerRows: 3,
         vertical: true,
@@ -43,11 +42,11 @@ const SearchResult = () => {
               <Slider ref={sliderRef} {...settings}>
                 {searchResults.map((item) => (
                   <PDFInfo
-                    key={item.id}
-                    id={item.id}
-                    first_name={item.firstName}
-                    last_name={item.lastName}
-                    status={item.status || "N/A"}
+                    key={item.candidate.id}
+                    id={item.candidate.id}
+                    first_name={item.candidate.firstName}
+                    last_name={item.candidate.lastName}
+                    position={item.jobOrder.title || "N/A"}
                   />
                 ))}
               </Slider>
@@ -55,11 +54,11 @@ const SearchResult = () => {
               <Slider {...settings} ref={sliderRef}>
                 {data.map((item) => (
                   <PDFInfo
-                    key={item.id}
-                    id={item.id}
-                    first_name={item.firstName}
-                    last_name={item.lastName}
-                    status={item.status || "N/A"}
+                    key={item.candidate.id}
+                    id={item.candidate.id}
+                    first_name={item.candidate.firstName}
+                    last_name={item.candidate.lastName}
+                    position={item.jobOrder.title || "N/A"}
                   />
                 ))}
               </Slider>
