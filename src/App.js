@@ -15,7 +15,6 @@ import PushToBullorn from "./components/Output/PushToBullorn";
 
 function App() {
   const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
-
   useEffect(() => {
     async function fetchData() {
       try {

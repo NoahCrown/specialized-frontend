@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useCandidate } from "../../store/Context";
-const PDFInfo = ({ id, first_name, last_name, status }) => {
+const PDFInfo = ({ id, first_name, last_name, position, active }) => {
   const {
     setCandidate,
     setOutput,
@@ -36,9 +36,11 @@ const PDFInfo = ({ id, first_name, last_name, status }) => {
       });
       setResume(responsePDF.data.files);
       setDataLoader(false);
+      console.log(responsePDF.data.files);
     } catch (error) {
+      console.error(error);
       setDataLoader(false);
-      toast.warn("Error: Unavailable to load all data, please try again.");
+      toast.warn("Error: Data unavailable, please try again.");
     }
   };
 
@@ -56,12 +58,12 @@ const PDFInfo = ({ id, first_name, last_name, status }) => {
         <h3 className="font-bold">
           {first_name && last_name ? `${first_name} ${last_name}` : "N/A"}
         </h3>
-        <p className="text-[#919191]">{status}</p>
+        <p className="text-[#919191]">{position}</p>
         <button
           className="font-bold underline hover:cursor-pointer text-left"
           onClick={handleClick}
         >
-          Run
+          {active ? "View" : "Run"}
         </button>
       </div>
     </div>
