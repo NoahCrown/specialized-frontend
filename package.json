@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/",
+  "proxy": "https://specialized-backend-ubuq.onrender.com",
   "dependencies": {
     "@material-tailwind/react": "^2.1.8",
     "@reduxjs/toolkit": "^2.0.1",
