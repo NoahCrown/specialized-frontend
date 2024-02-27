@@ -42,11 +42,11 @@ const SearchResult = () => {
               <Slider ref={sliderRef} {...settings}>
                 {searchResults.map((item) => (
                   <PDFInfo
-                    key={item.candidate.id}
-                    id={item.candidate.id}
-                    first_name={item.candidate.firstName}
-                    last_name={item.candidate.lastName}
-                    position={item.jobOrder.title || "N/A"}
+                    key={item.id}
+                    id={item.id}
+                    first_name={item.firstName}
+                    last_name={item.lastName}
+                    status={item.status || "N/A"}
                   />
                 ))}
               </Slider>
@@ -54,11 +54,11 @@ const SearchResult = () => {
               <Slider {...settings} ref={sliderRef}>
                 {data.map((item) => (
                   <PDFInfo
-                    key={item.candidate.id}
-                    id={item.candidate.id}
-                    first_name={item.candidate.firstName}
-                    last_name={item.candidate.lastName}
-                    position={item.jobOrder.title || "N/A"}
+                    key={item.id}
+                    id={item.id}
+                    first_name={item.firstName}
+                    last_name={item.lastName}
+                    status={item.status || "N/A"}
                   />
                 ))}
               </Slider>
