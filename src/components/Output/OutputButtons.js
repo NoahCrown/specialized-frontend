@@ -1,7 +1,7 @@
 import React from 'react'
 import { useCandidate } from "../../store/Context";
 import ParserInfo from './ParserInfo';
-import { base64Decode, base64Encode } from 'base64topdf';
+//import { base64Decode, base64Encode } from 'base64topdf';
 
 
 const OutputButtons = () => {
