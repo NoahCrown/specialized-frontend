@@ -7,11 +7,10 @@ import axios from 'axios'
 import { useCandidate } from './store/Context';
 import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
-import { REACT_APP_API_URL } from "./config";
 import PushToBullorn from "./components/Output/PushToBullorn";
 
-
-axios.defaults.baseURL = REACT_APP_API_URL
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 function App() {
   const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
