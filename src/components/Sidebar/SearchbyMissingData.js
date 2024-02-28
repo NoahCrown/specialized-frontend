@@ -16,10 +16,9 @@ const SearchbyMissingData = () => {
     
       const options = [
         { value: "age", label: "Age" },
-        { value: "languageSkills", label: "languageSkill" },
         { value: "languageSkillsEN", label: "Language Skills EN" },
         { value: "languageSkillsJP", label: "Language Skills JP" },
-        { value: "location", label: "location" },
+        { value: "location", label: "Location" },
         {}
       ];
 
