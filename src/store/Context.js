@@ -74,7 +74,7 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Mode of Data Context
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState('bullhorn');
   const setModeOfData = (data) => {
     setMode(data);
   };

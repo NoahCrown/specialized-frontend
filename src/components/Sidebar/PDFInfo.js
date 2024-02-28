@@ -24,7 +24,9 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
         candidateId: id,
       });
       setCandidate(id);
-      await setModeOfData("bullhorn");
+      const defaultMode = mode || "bullhorn"
+      setModeOfData(defaultMode);
+      console.log(mode)
       clearOutput();
       setOutput(response.data);
       setDisplayBullhorn(response.data);

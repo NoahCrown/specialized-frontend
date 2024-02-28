@@ -59,6 +59,7 @@ const UploadCV = () => {
         console.log(pdfData);
         toast.success("File uploaded successfully");
         setDataLoader(false);
+        setModeOfData('CV')
       })
       .catch((error) => {
         // Handle any errors

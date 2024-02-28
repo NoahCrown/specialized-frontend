@@ -9,8 +9,15 @@ import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
 import PushToBullorn from "./components/Output/PushToBullorn";
 
+// const REACT_APP_API_URL = process.env.REACT_APP_API_URL
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL
+
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
+
+console.log(REACT_APP_API_URL)
+console.log(process.env.REACT_APP_API_URL);
+
 
 function App() {
   const { setAllData, isLoading, isPushingToBullhorn } = useCandidate();
