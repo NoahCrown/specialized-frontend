@@ -134,23 +134,21 @@ export const CandidateProvider = ({ children }) => {
     if (isNaN(epochTime) || epochTime < 0) {
       return "Invalid Epoch Time";
     }
-
-    // Convert epoch time to milliseconds (JavaScript uses milliseconds)
-    const date = new Date(epochTime * 1000);
-
+  
+  
+    const date = new Date(epochTime);
     // Check if the resulting date is valid
     if (isNaN(date.getTime())) {
       return "Invalid Date";
     }
-
+  
     // Extract the year, month, and day
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
     const day = date.getDate().toString().padStart(2, "0");
 
-    // Create a formatted date string
     const dateString = `${year}-${month}-${day}`;
-
+  
     return dateString;
   }
 
