@@ -74,7 +74,7 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Mode of Data Context
-  const [mode, setMode] = useState('bullhorn');
+  const [mode, setMode] = useState(null);
   const setModeOfData = (data) => {
     setMode(data);
   };
@@ -204,13 +204,7 @@ export const CandidateProvider = ({ children }) => {
     setResume(null);
   };
 
-  // Toggle File List Context
-  const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
-  const setToggleFileList = () => {
-    setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
-  };
 
-  console.log(isCVFileSelectorVisible);
 
   return (
     <Context.Provider
@@ -258,8 +252,6 @@ export const CandidateProvider = ({ children }) => {
         resumeFiles,
         setResume,
         clearOutput,
-        setToggleFileList,
-        isCVFileSelectorVisible,
         setSearchData,
         missingDataToSearch,
         setSearchMissingData,

@@ -11,11 +11,11 @@ const UploadCV = () => {
     setModeOfData,
     selectedFile,
     setUploadFile,
-    setInferedLang,
-    setInferedLoc,
-    setInfered,
     setDataLoader,
     setLoaderDetails,
+    mode,
+    setCandidate,
+    clearOutput
   } = useCandidate();
   const handleDivClick = () => {
     // Trigger the hidden file input click event
@@ -31,35 +31,30 @@ const UploadCV = () => {
   };
 
   const handleUpload = async () => {
-    // Check if a file is selected
     if (!selectedFile) {
       return;
     }
+    console.log(mode)
     toast.success("Uploading file, please wait.");
-    setInfered(null);
-    setInferedLang(null);
-    setInferedLoc(null);
+    clearOutput()
     setLoaderDetails("Parsing");
     setDataLoader(true);
-    setModeOfData("CV");
-
-    console.log(selectedFile);
 
     const pdfData = new FormData();
     pdfData.append("pdfFile", selectedFile); 
-    console.log(pdfData); 
 
     await axios
       .post("/api/upload", pdfData)
 
       .then((response) => {
         // Handle the response from the server
-        console.log("File uploaded successfully:", response.data);
         setOutput(response.data);
-        console.log(pdfData);
         toast.success("File uploaded successfully");
+        setCandidate(null)
         setDataLoader(false);
-        setModeOfData('CV')
+        setModeOfData("CV");
+
+        
       })
       .catch((error) => {
         // Handle any errors
@@ -139,22 +134,14 @@ const UploadCV = () => {
           </div>
 
           {
-  selectedFile ? 
+  selectedFile && 
   <button
             className="rounded-md bg-black text-white px-8 font-bold py-3 text-[.75rem]"
             onClick={handleUpload}
           >
 
           Upload</button>
-          :
-          <input
-                  type="file"
-                  accept="application/pdf"
-                  name="pdfFile"
-                  className="upload-button hidden w-full"
-                  onChange={handleFileChange}
-                  ref={fileInputRef}
-                />
+       
           
 }
 

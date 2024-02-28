@@ -11,8 +11,8 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
     setDisplayBullhorn,
     setThisNewData,
     clearOutput,
-    setResume,
     mode,
+  
   } = useCandidate();
 
   const handleClick = async () => {
@@ -23,22 +23,16 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
       const response = await axios.post("/api/get_candidate", {
         candidateId: id,
       });
+      await setModeOfData('bullhorn');
       setCandidate(id);
-      const defaultMode = mode || "bullhorn"
-      setModeOfData(defaultMode);
       console.log(mode)
       clearOutput();
       setOutput(response.data);
       setDisplayBullhorn(response.data);
       setThisNewData(true);
-
-      const responsePDF = await axios.post("/api/get_pdf", {
-        candidateId: id || null,
-        mode: mode,
-      });
-      setResume(responsePDF.data.files);
       setDataLoader(false);
-      console.log(responsePDF.data.files);
+
+
     } catch (error) {
       console.error(error);
       setDataLoader(false);
