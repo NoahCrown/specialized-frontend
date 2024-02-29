@@ -18,17 +18,22 @@ const ModalLoader = () => {
           className="w-1/3"
         />
       </div>
-        {loaderContext === 'Inferring' ?
+        {loaderContext === 'Inferring' &&
         <>
         <h2 className='transition ease-in-out delay-150 animate-pulse	 text-center text-[1.75rem]'>Inferring Missing Data...</h2>
         <p className=' transition ease-in-out delay-150 animate-pulse   text-[1.10rem] text-center'>We're currently processing and analyzing the data from a CV to extract relevant information. This step ensures that we provide accurate and valuable insights.</p>
         </>
-         :
-         <>
-        <h2 className='transition ease-in-out delay-150 animate-pulse	 text-center text-[1.75rem]'>Parsing CV Data</h2>
+        }
+
+        {loaderContext === 'Parsing' && 
+        <>
+        <h2 className='transition ease-in-out delay-150 animate-pulse	 text-center text-[1.75rem]'>Loading CV Data</h2>
         <p className=' transition ease-in-out delay-150 animate-pulse   text-[1.10rem] text-center'>We're processing the parsing of your CV data into a usable JSON Format, please be patient with us. We're ensuring we get the best result as possible.</p>
         </>
-          }
+        }
+        
+         
+          
           
           <Loader />
         </dialog>

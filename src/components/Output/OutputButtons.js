@@ -81,17 +81,17 @@ const OutputButtons = () => {
           </p>
           <div className="flex gap-4 justify-start flex-wrap items-center">
             {resumeFiles.map((val, index) => (
-              <div className="flex justify-center items-center gap-9">
-                <div className="rounded-full bg-[#D3D3D3] min-w-[10%] max-w-[10%] flex justify-center items-center p-2">
+              <div className="flex justify-center items-center gap-9 min-w-[100%] max-w">
+                <div className="rounded-full bg-[#D3D3D3] min-w-[8%] max-w-[8%] flex justify-center items-center p-2">
                   <img
                     src={require("../../assets/pdf_icon.png")}
                     alt="pdf-icon"
-                    className="w-[65%]"
+                    className=" min-w-[65%] max-w-[65%]"
                   />
                 </div>
-                <p> {val.fileName}</p>
+                <p className="min-w-[65%] max-w-[65%]"> {val.fileName}</p>
                 <button
-                  className="font-bold underline"
+                  className="min-w-[10%] max-w-[10%] font-bold underline"
                   onClick={() => handleOpenPdfInNewTab(val.candidateFile)}
                   key={index}
                 >

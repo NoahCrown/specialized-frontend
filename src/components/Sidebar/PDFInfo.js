@@ -12,6 +12,7 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
     setThisNewData,
     clearOutput,
     mode,
+    setLoaderDetails
   
   } = useCandidate();
 
@@ -27,6 +28,7 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
       setCandidate(id);
       console.log(mode)
       clearOutput();
+      setLoaderDetails('Parsing')
       setOutput(response.data);
       setDisplayBullhorn(response.data);
       setThisNewData(true);
