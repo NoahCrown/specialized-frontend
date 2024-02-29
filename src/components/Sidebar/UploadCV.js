@@ -25,7 +25,6 @@ const UploadCV = () => {
   };
 
   const handleFileChange = (event) => {
-    console.log(event.target.files[0]);
     setUploadFile(event.target.files[0]);
     toast.success("Filed Added Successfully");
   };
@@ -34,7 +33,6 @@ const UploadCV = () => {
     if (!selectedFile) {
       return;
     }
-    console.log(mode)
     toast.success("Uploading file, please wait.");
     clearOutput()
     setLoaderDetails("Parsing");
@@ -58,8 +56,6 @@ const UploadCV = () => {
       })
       .catch((error) => {
         // Handle any errors
-        console.log(pdfData);
-
         console.error("Error uploading file:", error);
       });
   };

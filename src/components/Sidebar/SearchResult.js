@@ -24,7 +24,6 @@ const SearchResult = () => {
       };
 
       const sliderRef = React.createRef();
-      console.log(sliderRef);
     
       const next = () => {
         sliderRef.current.slickNext();

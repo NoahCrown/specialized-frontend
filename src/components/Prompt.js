@@ -51,7 +51,6 @@ const Prompt = () => {
     
           const agePromptsArray = await Promise.all(
             age.map(async (id) => {
-              console.log(id)
               const dataPrompt = await loadSavedPrompts("age", id);
               return (
                 <PromptInput
@@ -67,7 +66,6 @@ const Prompt = () => {
     
           const langPromptsArray = await Promise.all(
             languageSkills.map(async (id) => {
-              console.log(id)
               const dataPrompt = await loadSavedPrompts("languageSkills", id);
               return (
                 <PromptInput

@@ -17,8 +17,7 @@ const SimpleAuth = () => {
     e.preventDefault();
     login()
 
-    console.log(username, password)
-    console.log(isAuthorized)
+  
   };
 
   return (

@@ -18,7 +18,6 @@ const Searchbar = () => {
           .then((response) => {
             // Handle the successful response
             setSearchData(response.data);
-            console.log(response.data);
           })
           .catch((error) => {
             // Handle errors here

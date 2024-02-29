@@ -25,12 +25,10 @@ const SearchbyMissingData = () => {
     const handleMissingDataSearch = async(event,{ action }) => {
       action === "clear" && handleClearSearch() ;
       const selectedValues = Array.from(event, (option) => option.value);
-        console.log(selectedValues);
         await setSearchMissingData(selectedValues);
       };
 
       const handleSearch = () => {
-        console.log(missingDataToSearch)
         // Make a POST request to the API using Axios
         axios
           .post("/api/filter_data", 
@@ -41,7 +39,6 @@ const SearchbyMissingData = () => {
           .then((response) => {
             // Handle the successful response
             setSearchData(response.data);
-            console.log(response.data);
           })
           .catch((error) => {
             // Handle errors here
@@ -54,7 +51,6 @@ const SearchbyMissingData = () => {
         setSearchData([]);
         setSearchMissingData(null)
         toast.success("Cleared search");
-        // console.log('ty')
       };
   return (
     <div className="flex justify-center items-center flex-col gap-2 w-[80%] py-4 border-solid border-b-2 border-[#E7E7E7]">

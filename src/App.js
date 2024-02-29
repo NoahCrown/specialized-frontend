@@ -16,8 +16,6 @@ import SimpleAuth from "./components/Auth/SimpleAuth";
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
-console.log(REACT_APP_API_URL)
-console.log(process.env.REACT_APP_API_URL);
 
 
 function App() {
@@ -27,7 +25,6 @@ function App() {
       try {
         const response = await axios.get(`${REACT_APP_API_URL}/api/process_data`);
         setAllData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error:', error);
       }

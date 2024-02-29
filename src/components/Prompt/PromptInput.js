@@ -54,7 +54,6 @@ function PromptInput({ prompt, id, onDelete, label }) {
           setDataLoader(false);
           toast.success("Successfully inferred Location Data.");
         }
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -70,8 +69,6 @@ function PromptInput({ prompt, id, onDelete, label }) {
     try {
       const data = { response: responseText, dataToInfer: dataToInfer };
       const response = await axios.post("/api/save_prompt", data);
-      console.log(responseText);
-      console.log("Prompt saved successfully:", response.data);
       toast.success("Prompt successfully saved.");
     } catch (error) {
       console.error("Error saving prompt:", error);
