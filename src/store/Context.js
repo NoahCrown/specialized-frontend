@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
+import { toast } from 'react-toastify';
+
 
 const Context = createContext();
 
@@ -204,6 +206,28 @@ export const CandidateProvider = ({ children }) => {
     setResume(null);
   };
 
+  // Simple Auth
+  const [username, setUsername] = useState('');
+  const setAppUsername = (data) => {
+    setUsername(data)
+  }
+  const [password, setPassword] = useState('');
+  const setAppPassword = (data) => {
+    setPassword(data)
+
+  }
+
+  const [isAuthorized, setIsAuthorized] = useState(false)
+  const login = () =>{
+    if (username === process.env.REACT_APP_AUTH_USER && password === process.env.REACT_APP_AUTH_PASSWORD) {
+      setIsAuthorized(true)
+      toast.success('Successfully logged in')
+    }else {
+      toast.warn('Incorrect credentials')
+    }
+
+  }
+
 
 
   return (
@@ -256,7 +280,13 @@ export const CandidateProvider = ({ children }) => {
         missingDataToSearch,
         setSearchMissingData,
         isPushingToBullhorn,
-        showPushingModal
+        showPushingModal,
+        username,
+        setAppUsername,
+        password,
+        setAppPassword,
+        isAuthorized,
+        login
       }}
     >
       {children}
