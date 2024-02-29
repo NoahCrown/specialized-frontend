@@ -9,7 +9,7 @@ import Navbar from "./Sidebar/Navbar";
 const Sidebar = () => {
   return (
     <div className="w-1/4 flex justify-start">
-      <div className=".no-scrollbar box-border flex justify-start justify-items-start	 items-center w-full flex-col max-h-fit min-h-[135vh] ">
+      <div className=".no-scrollbar box-border flex justify-start justify-items-start	 items-center w-full flex-col max-h-[145vh] min-h-[135vh] ">
         {/* Specialized Nav */}
         <Navbar/>
         {/* Pdf Info */}
