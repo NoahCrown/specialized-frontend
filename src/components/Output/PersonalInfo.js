@@ -5,6 +5,7 @@ import { useCandidate } from "../../store/Context";
 const PersonalInfo = () => {
     const {
         promptResult,
+        epochToDateString
       } = useCandidate();
       console.log(promptResult[0])
   return (
@@ -64,8 +65,8 @@ const PersonalInfo = () => {
 <p className="w-1/4 inline-block">Date of Birth:</p>
         <span className="text-[#919191] w-3/4 inline-block">
           {promptResult[0]?.properties?.dateOfBirth
-            ? promptResult[0]?.properties?.dateOfBirth
-            : promptResult[0]?.dateOfBirth || "N/A"}
+            ? epochToDateString(promptResult[0]?.properties?.dateOfBirth)
+            : epochToDateString(promptResult[0]?.dateOfBirth) || "N/A"}
         </span>
         
         <p className="w-1/4 inline-block">Email:</p>
