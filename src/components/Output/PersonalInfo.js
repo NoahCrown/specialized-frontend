@@ -36,13 +36,13 @@ const PersonalInfo = () => {
         </span>
 
         <p className="w-1/4 inline-block">Address:</p>
-<span className="text-[#919191] w-3/4 inline-block">
+        <span className="text-[#919191] w-3/4 inline-block">
   {promptResult[0]?.properties?.address ? (
     <>
-      {promptResult[0]?.properties?.address?.address1 && promptResult[0]?.properties?.address?.address1 }
-      {promptResult[0]?.properties?.address?.address2 &&  promptResult[0]?.properties?.address?.address2}
-      {promptResult[0]?.properties?.address?.city && promptResult[0]?.properties?.address?.city}
-      {promptResult[0]?.properties?.address?.countryID && promptResult[0]?.properties?.address?.countryID}
+      {promptResult[0]?.properties?.address?.address1 && promptResult[0]?.properties?.address?.address1 + ' '}
+      {promptResult[0]?.properties?.address?.address2 && promptResult[0]?.properties?.address?.address2 + ' '}
+      {promptResult[0]?.properties?.address?.city && promptResult[0]?.properties?.address?.city + ' '}
+      {promptResult[0]?.properties?.address?.countryID && promptResult[0]?.properties?.address?.countryID + ' '}
     </>
   ) : (
     <>
@@ -52,9 +52,22 @@ const PersonalInfo = () => {
       {promptResult[0]?.address?.countryID && promptResult[0]?.address?.countryID + ' '}
     </>
   )}
+  {!promptResult[0]?.properties?.address && 
+   !promptResult[0]?.address?.address1 &&
+   !promptResult[0]?.address?.address2 &&
+   !promptResult[0]?.address?.city &&
+   !promptResult[0]?.address?.countryID &&
+   'N/A'}
 </span>
 
 
+<p className="w-1/4 inline-block">Date of Birth:</p>
+        <span className="text-[#919191] w-3/4 inline-block">
+          {promptResult[0]?.properties?.dateOfBirth
+            ? promptResult[0]?.properties?.dateOfBirth
+            : promptResult[0]?.dateOfBirth || "N/A"}
+        </span>
+        
         <p className="w-1/4 inline-block">Email:</p>
         <span className="text-[#919191] w-3/4 inline-block">
           {promptResult[0]?.properties?.email

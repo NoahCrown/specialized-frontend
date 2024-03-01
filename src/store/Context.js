@@ -190,6 +190,7 @@ export const CandidateProvider = ({ children }) => {
   const [isNewData, setIsNewData] = useState(false);
   const setThisNewData = (data) => {
     setIsNewData(data);
+    console.log(promptResult[0])
   };
 
   // Resume Files Context
