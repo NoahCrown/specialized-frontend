@@ -134,7 +134,11 @@ export const CandidateProvider = ({ children }) => {
   function epochToDateString(epochTime) {
     // Check if epochTime is a valid number
     if (isNaN(epochTime) || epochTime < 0) {
-      return "Invalid Epoch Time";
+      return null;
+    }
+
+    if (epochTime === null){
+      return null
     }
   
   
