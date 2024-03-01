@@ -6,6 +6,7 @@ const PersonalInfo = () => {
     const {
         promptResult,
       } = useCandidate();
+      console.log(promptResult[0])
   return (
     <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">
         <p className="text-black py-2 font-semibold">Personal Information</p>
@@ -27,12 +28,33 @@ const PersonalInfo = () => {
             ? promptResult[0]?.properties?.phone
             : promptResult[0]?.phone || "N/A"}
         </span>
-        <p className="w-1/4 inline-block">Address:</p>
+        <p className="w-1/4 inline-block">Ethnicity:</p>
         <span className="text-[#919191] w-3/4 inline-block">
           {promptResult[0]?.properties?.ethnicity
             ? promptResult[0]?.properties?.ethnicity
             : promptResult[0]?.ethnicity || "N/A"}
         </span>
+
+        <p className="w-1/4 inline-block">Address:</p>
+<span className="text-[#919191] w-3/4 inline-block">
+  {promptResult[0]?.properties?.address ? (
+    <>
+      {promptResult[0]?.properties?.address?.address1 && promptResult[0]?.properties?.address?.address1 }
+      {promptResult[0]?.properties?.address?.address2 &&  promptResult[0]?.properties?.address?.address2}
+      {promptResult[0]?.properties?.address?.city && promptResult[0]?.properties?.address?.city}
+      {promptResult[0]?.properties?.address?.countryID && promptResult[0]?.properties?.address?.countryID}
+    </>
+  ) : (
+    <>
+      {promptResult[0]?.address?.address1 && promptResult[0]?.address?.address1 + ' '}
+      {promptResult[0]?.address?.address2 && promptResult[0]?.address?.address2 + ' '}
+      {promptResult[0]?.address?.city && promptResult[0]?.address?.city + ' '}
+      {promptResult[0]?.address?.countryID && promptResult[0]?.address?.countryID + ' '}
+    </>
+  )}
+</span>
+
+
         <p className="w-1/4 inline-block">Email:</p>
         <span className="text-[#919191] w-3/4 inline-block">
           {promptResult[0]?.properties?.email

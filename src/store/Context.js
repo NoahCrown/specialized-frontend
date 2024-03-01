@@ -182,7 +182,7 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Loader Info Context
-  const [loaderContext, setLoaderContext] = useState("");
+  const [loaderContext, setLoaderContext] = useState("Parsing");
   const setLoaderDetails = (data) => {
     setLoaderContext(data);
   };
