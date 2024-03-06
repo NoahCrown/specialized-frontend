@@ -196,7 +196,9 @@ const Skills = () => {
             </ul>
           </span>
           {/* Comments  */}
-          <div className="flex flex-wrap">
+          
+        </div>
+        <div className="flex flex-wrap">
             <p className="w-1/4 inline-block align-top">Comments:</p>
             <span className="text-[#919191] w-3/4 inline-block">
               {promptResult[0]?.properties?.comments
@@ -204,7 +206,6 @@ const Skills = () => {
                 : promptResult[0]?.comments || "N/A"}
             </span>
           </div>
-        </div>
       </div>
     </div>
   );

@@ -19,14 +19,14 @@ const ParserInfo = () => {
   const [parsedBullhornData, setParsedBullhornData] = useState(null);
   const [showParsedData, setShowParsedData] = useState(false);
 
-  const switchData = () => {
+  const switchData = async() => {
     setShowParsedData(!showParsedData);
     if (showParsedData) {
       setOutput(parsedBullhornData);
-      setModeOfData("CV_bullhorn");
+      await setModeOfData("CV_bullhorn");
     } else {
       setOutput(defaultBullhornData);
-      setModeOfData("bullhorn");
+      await setModeOfData("bullhorn");
     }
   };
   const parseBullhornData = async () => {

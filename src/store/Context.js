@@ -75,6 +75,30 @@ export const CandidateProvider = ({ children }) => {
     setInferedLocation(data);
   };
 
+  // Infered in Offshorly parser
+  // Infered Age Data Context
+  const [inferedDataOffshorly, setInferedDataOffshorly] = useState(null);
+
+  const setInferedOffshorly = (data) => {
+    setInferedDataOffshorly(data);
+  };
+
+  // Infered Language Proficiency Context
+  const [inferedLangProficiencyOffshorly, setInferedLangProficiencyOffshorly] = useState(null);
+
+  const setInferedLangOffshorly = (data) => {
+    setInferedLangProficiencyOffshorly(data);
+  };
+
+  // Infered Location Data Context
+  const [inferedLocationOffshorly, setInferedLocationOffshorly] = useState(null);
+
+  const setInferedLocOffshorly = (data) => {
+    setInferedLocationOffshorly(data);
+    console.log(inferedLocationOffshorly)
+  };
+
+
   // Mode of Data Context
   const [mode, setMode] = useState(null);
   const setModeOfData = (data) => {
@@ -122,9 +146,7 @@ export const CandidateProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error opening PDF in new tab:", error);
-      // } finally {
-      //   if (w) w.document.close();
-      // }
+
     }
   };
 
@@ -250,6 +272,12 @@ export const CandidateProvider = ({ children }) => {
         setInferedLang,
         inferedLocation,
         setInferedLoc,
+        inferedDataOffshorly,
+        setInferedOffshorly,
+        inferedLangProficiencyOffshorly,
+        setInferedLangOffshorly,
+        inferedLocationOffshorly,
+        setInferedLocOffshorly,
         mode,
         setModeOfData,
         data,

@@ -21,6 +21,9 @@ function PromptInput({ prompt, id, onDelete, label }) {
     locationPrompts,
     setDataLoader,
     setLoaderDetails,
+    setInferedOffshorly,
+    setInferedLangOffshorly,
+    setInferedLocOffshorly
   } = useCandidate();
 
   const handleSubmitPropmpt = async () => {
@@ -41,19 +44,41 @@ function PromptInput({ prompt, id, onDelete, label }) {
         },
       })
       .then((response) => {
-        if (response.data && dataToInfer === "age") {
-          setInfered(response.data);
-          setDataLoader(false);
-          toast.success("Successfully inferred Age Data.");
-        } else if (response.data && dataToInfer === "languageSkills") {
-          setInferedLang(response.data);
-          setDataLoader(false);
-          toast.success("Successfully inferred Language Proficiency Data.");
-        } else if (response.data && dataToInfer === "location") {
-          setInferedLoc(response.data);
-          setDataLoader(false);
-          toast.success("Successfully inferred Location Data.");
+        console.log(mode)
+        if (mode === "bullhorn"){
+          if (response.data && dataToInfer === "age") {
+            setInfered(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Age Data.");
+          } else if (response.data && dataToInfer === "languageSkills") {
+            setInferedLang(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Language Proficiency Data.");
+          } else if (response.data && dataToInfer === "location") {
+            setInferedLoc(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Location Data.");
+          }
+
+        }else if (mode === 'CV_bullhorn'){
+          if (response.data && dataToInfer === "age") {
+            setInferedOffshorly(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Age Data.");
+          } else if (response.data && dataToInfer === "languageSkills") {
+            setInferedLangOffshorly(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Language Proficiency Data.");
+          } else if (response.data && dataToInfer === "location") {
+            setInferedLocOffshorly(response.data);
+            setDataLoader(false);
+            toast.success("Successfully inferred Location Data.");
+          }
+
         }
+
+        console.log(response)
+        
       })
       .catch((error) => {
         console.error("Error:", error);
