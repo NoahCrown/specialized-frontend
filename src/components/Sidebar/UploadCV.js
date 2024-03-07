@@ -56,6 +56,9 @@ const UploadCV = () => {
       })
       .catch((error) => {
         // Handle any errors
+        setDataLoader(false);        
+        toast.warn("Failed to parse CV. Please try again later");
+
         console.error("Error uploading file:", error);
       });
   };
