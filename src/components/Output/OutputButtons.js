@@ -26,7 +26,7 @@ const OutputButtons = () => {
       try {
         const responsePDF = await axios.post("/api/get_pdf", {
           candidateId: candidateId,
-          mode: "bullhorn",
+          mode: mode,
         });
         await setResume(responsePDF.data.files);
         setDataLoader(false);
@@ -38,12 +38,12 @@ const OutputButtons = () => {
     }
   };
 
-  const openFileInNewTab = (selectedFile) => {
-    if (selectedFile) {
-      const fileURL = URL.createObjectURL(selectedFile);
-      window.open(fileURL, "_blank");
-    }
-  };
+  // const openFileInNewTab = (selectedFile) => {
+  //   if (selectedFile) {
+  //     const fileURL = URL.createObjectURL(selectedFile);
+  //     window.open(fileURL, "_blank");
+  //   }
+  // };
 
   return (
     <>
@@ -55,10 +55,7 @@ const OutputButtons = () => {
           <>
             <div className="flex gap-4 w-[60%]">
               <button
-                onClick={
-                  mode === "CV"
-                    ? () => openFileInNewTab(selectedFile)
-                    : setToggleFileList
+                onClick={setToggleFileList
                 }
                 className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-1/2 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
               >

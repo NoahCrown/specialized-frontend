@@ -7,6 +7,46 @@ const JobHistory = () => {
         promptResult,
         epochToDateString
       } = useCandidate();
+      console.log(promptResult[1])
+
+      const splitString = (comment) => {
+        if (!comment) {
+          return 'N/A';
+        }else if (Array.isArray(comment)){
+          return comment
+        }
+      
+        // Define an array of delimiters
+        const delimiters = ['·', '•', ';', '●', '○', '\n'];
+      
+        // Function to split and filter comment
+        const splitAndFilterComment = (comment, delimiters) => {
+          let parts = [comment]; // Start with the whole comment as a single part
+      
+          // Iterate through each delimiter
+          delimiters.forEach(delimiter => {
+            // Split each part using the delimiter and flatten the resulting array
+            parts = parts.flatMap(part => part.split(delimiter));
+          });
+      
+          // Filter out empty strings and trim each part
+          parts = parts.filter(item => item.trim() !== "");
+      
+          return parts;
+        };
+      
+        // Split and filter the comment
+        const parts = splitAndFilterComment(comment, delimiters);
+      
+        // Render the parts
+        return (
+          <>
+            {parts.map((val, index) => (
+              <li key={index} className='disc'>{val}</li>
+            ))}
+          </>
+        );
+      };
   return (
     <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">
     <p className="text-black py-2 font-semibold">Job History</p>
@@ -39,7 +79,7 @@ const JobHistory = () => {
             </span>
             <p className="w-1/4 inline-block align-top">Comments: </p>
             <span className="text-[#919191] w-3/4 inline-block">
-              {val.comments}
+              {splitString(val.comments)}
             </span>
           </div>
         ))
@@ -72,7 +112,8 @@ const JobHistory = () => {
             </span>
             <p className="w-1/4 inline-block align-top">Comments: </p>
             <span className="text-[#919191] w-3/4 inline-block">
-              {val.comments || "N/A"}
+            {splitString(val.comments)}
+
             </span>
           </div>
         ))
