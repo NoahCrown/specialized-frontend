@@ -9,7 +9,7 @@ const SimpleAuth = () => {
         password,
         setAppPassword,
         login,
-        isAuthorized
+
     } = useCandidate()
 
 
