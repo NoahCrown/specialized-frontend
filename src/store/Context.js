@@ -126,8 +126,14 @@ export const CandidateProvider = ({ children }) => {
 
   // Pushing to bullhorn Modal
   const [isPushingToBullhorn, setIsPushingToBullhorn] = useState(false)
-  const showPushingModal = (data) => {
+  const showPushingModal = () => {
     setIsPushingToBullhorn(!isPushingToBullhorn)
+  }
+
+  // Run in bulk modal
+  const [isRunningInBulk, setIsRunningInBulk] = useState(false)
+  const showRunInBulk = () => {
+    setIsRunningInBulk(!isRunningInBulk)
   }
 
   // Opening PDF Logic Context
@@ -254,6 +260,16 @@ export const CandidateProvider = ({ children }) => {
 
   }
 
+  const [bulkInference, setBulkInference] = useState(null)
+  const setBulkInferenceData = (data) => {
+    setBulkInference(data)
+  }
+
+  const [isBulkInferenceShowing, SetIsBulkInferenceShowing] = useState(false)
+  const showBulkInferenceData = () => {
+    SetIsBulkInferenceShowing(!isBulkInferenceShowing)
+  }
+
 
 
   return (
@@ -318,7 +334,13 @@ export const CandidateProvider = ({ children }) => {
         password,
         setAppPassword,
         isAuthorized,
-        login
+        login,
+        isRunningInBulk,
+        showRunInBulk,
+        bulkInference,
+        setBulkInferenceData,
+        isBulkInferenceShowing,
+        showBulkInferenceData
       }}
     >
       {children}

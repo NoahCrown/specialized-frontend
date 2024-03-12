@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useCandidate } from "../../store/Context";
 import { toast } from "react-toastify";
+import RunInBulk from "./RunInBulk";
 
 function PromptInput({ prompt, id, onDelete, label }) {
   const [isTextboxVisible, setTextboxVisible] = useState(false);
@@ -23,10 +24,15 @@ function PromptInput({ prompt, id, onDelete, label }) {
     setLoaderDetails,
     setInferedOffshorly,
     setInferedLangOffshorly,
-    setInferedLocOffshorly
+    setInferedLocOffshorly,
+    setOutput,
+    promptResult,
+    showRunInBulk,
+    isRunningInBulk
   } = useCandidate();
 
-  const handleSubmitPropmpt = async () => {
+
+  const handleSubmitPrompt = async () => {
     const data = {
       response: responseText,
       candidateId: candidateId,
@@ -36,59 +42,38 @@ function PromptInput({ prompt, id, onDelete, label }) {
     toast.success(`Inferring ${data.dataToInfer}, please wait.`);
     setLoaderDetails("Inferring");
     setDataLoader(true);
-
-    await axios
-      .post("/api/prompt_input", data, {
+  
+    try {
+      const response = await axios.post("/api/prompt_input", data, {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .then((response) => {
-        console.log(mode)
-        if (mode === "bullhorn"){
-          if (response.data && dataToInfer === "age") {
-            setInfered(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Age Data.");
-          } else if (response.data && dataToInfer === "languageSkills") {
-            setInferedLang(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Language Proficiency Data.");
-          } else if (response.data && dataToInfer === "location") {
-            setInferedLoc(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Location Data.");
-          }
-
-        }else if (mode === 'CV_bullhorn'){
-          if (response.data && dataToInfer === "age") {
-            setInferedOffshorly(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Age Data.");
-          } else if (response.data && dataToInfer === "languageSkills") {
-            setInferedLangOffshorly(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Language Proficiency Data.");
-          } else if (response.data && dataToInfer === "location") {
-            setInferedLocOffshorly(response.data);
-            setDataLoader(false);
-            toast.success("Successfully inferred Location Data.");
-          }
-
-        }
-
-        console.log(response)
-        
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        if (error.response) {
-          toast.warn("Failed to infer data, please try again later.");
-          setDataLoader(false);
-
-        }
       });
+  
+      console.log(mode);
+      console.log(dataToInfer)
+      console.log(response.data);
+  
+      const newData = {
+        ...promptResult,
+        ...(dataToInfer === 'age' && { inferredAge: { Age: response.data.Age, ageConfidence: response.data.confidence } }),
+        ...(dataToInfer === 'languageSkills' && { languageSkills: response.data.languageSkills }),
+        ...(dataToInfer === 'location' && { inferredLocation: { Location: response.data.Location, locationConfidence: response.data.confidence } }),      
+      };
+  
+      console.log(promptResult);
+      console.log(response);
+  
+      setOutput(newData); // Assuming setOutput is defined in your component
+  
+      setDataLoader(false);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.warn("Failed to infer data, please try again later.");
+      setDataLoader(false);
+    }
   };
+  
 
   const savePrompt = async () => {
     try {
@@ -132,6 +117,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
 
   return (
     <>
+      {isRunningInBulk ? <RunInBulk prompt={prompt}/> :
       <div className="relative bg-white text-black">
         <div
           onClick={() => setTextboxVisible(!isTextboxVisible)}
@@ -174,16 +160,33 @@ function PromptInput({ prompt, id, onDelete, label }) {
               <button onClick={onDelete || deletePrompt}>
                 <i class="fa-solid fa-trash"></i>
               </button>
-              <button
-                className="my-3 bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
-                onClick={handleSubmitPropmpt}
-              >
-                Rerun
-              </button>
+              <div className="flex justify-center items-center  gap-2 ">
+                  <button
+                  className="my-3 bg-black text-white font-bold py-2 px-4 rounded "
+                  onClick={showRunInBulk}
+                  >
+                  Run in bulk
+                </button>
+                <button
+                  className="my-3 bg-black text-white font-bold py-2 px-4 rounded "
+                  onClick={handleSubmitPrompt}
+                >
+                  Rerun
+                </button>
+                
+
+              </div>
+              
             </div>
           </div>
         )}
       </div>
+      
+      
+      
+       }
+
+      
     </>
   );
 }

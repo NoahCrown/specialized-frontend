@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import ModalLoader from "./components/ModalLoader";
 import PushToBullorn from "./components/Output/PushToBullorn";
 import SimpleAuth from "./components/Auth/SimpleAuth";
+import RunInBulk from "./components/Prompt/RunInBulk";
 
 // const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL
@@ -19,7 +20,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 
 function App() {
-  const { setAllData, isLoading, isPushingToBullhorn, isAuthorized } = useCandidate();
+  const { setAllData, isLoading, isPushingToBullhorn, isAuthorized, isRunningInBulk } = useCandidate();
   useEffect(() => {
     async function fetchData() {
       try {
@@ -43,6 +44,10 @@ function App() {
 
       isPushingToBullhorn && <PushToBullorn/>
     }
+
+
+
+
       
 
     {isAuthorized ? <>

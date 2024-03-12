@@ -2,7 +2,19 @@ import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useCandidate } from "../../store/Context";
-const PDFInfo = ({ id, first_name, last_name, status, active }) => {
+const PDFInfo = ({
+  id,
+  first_name,
+  last_name,
+  status,
+  active,
+  Age,
+  ageConfidence,
+  bulk,
+  languageSkills,
+  Location,
+  locationConfidence,
+}) => {
   const {
     setCandidate,
     setOutput,
@@ -12,9 +24,9 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
     setThisNewData,
     clearOutput,
     mode,
-    setLoaderDetails
-  
+    setLoaderDetails,
   } = useCandidate();
+  console.log(Age, ageConfidence, bulk, languageSkills);
 
   const handleClick = async () => {
     setDataLoader(true);
@@ -24,17 +36,26 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
       const response = await axios.post("/api/get_candidate", {
         candidateId: id,
       });
-      await setModeOfData('bullhorn');
+      await setModeOfData("bullhorn");
       setCandidate(id);
-      console.log(mode)
+      console.log(mode);
       clearOutput();
-      setLoaderDetails('Parsing')
-      setOutput(response.data);
+      setLoaderDetails("Parsing");
       setDisplayBullhorn(response.data);
       setThisNewData(true);
       setDataLoader(false);
-
-
+      if (bulk) {
+        const newData = {
+          ...response.data,
+          ...(Age && ageConfidence && { inferredAge: { Age, ageConfidence } }),
+          ...(languageSkills && { languageSkills }),
+          ...(Location && locationConfidence && { inferredLocation: { Location, locationConfidence } })
+        };
+        setOutput(newData);
+      } else {
+        setOutput(response.data);
+      }
+      
     } catch (error) {
       console.error(error);
       setDataLoader(false);
@@ -54,7 +75,7 @@ const PDFInfo = ({ id, first_name, last_name, status, active }) => {
 
       <div className="w-[70%] flex flex-col gap-2 justify-items-start  ">
         <h3 className="font-bold">
-          {first_name && last_name ? `${first_name} ${last_name}` : "N/A"}
+          {first_name && last_name ? `${first_name} ${last_name}` : first_name}
         </h3>
         <p className="text-[#919191]">{status}</p>
         <button
