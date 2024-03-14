@@ -10,9 +10,6 @@ function PromptInput({ prompt, id, onDelete, label }) {
   const {
     candidateId,
     dataToInfer,
-    setInfered,
-    setInferedLang,
-    setInferedLoc,
     mode,
     setAgePromptInputs,
     setLanguagePromptInputs,
@@ -22,9 +19,6 @@ function PromptInput({ prompt, id, onDelete, label }) {
     locationPrompts,
     setDataLoader,
     setLoaderDetails,
-    setInferedOffshorly,
-    setInferedLangOffshorly,
-    setInferedLocOffshorly,
     setOutput,
     promptResult,
     showRunInBulk,
@@ -49,10 +43,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
           "Content-Type": "application/json",
         },
       });
-  
-      console.log(mode);
-      console.log(dataToInfer)
-      console.log(response.data);
+
   
       const newData = {
         ...promptResult,
@@ -61,10 +52,9 @@ function PromptInput({ prompt, id, onDelete, label }) {
         ...(dataToInfer === 'location' && { inferredLocation: { Location: response.data.Location, locationConfidence: response.data.confidence } }),      
       };
   
-      console.log(promptResult);
-      console.log(response);
+
   
-      setOutput(newData); // Assuming setOutput is defined in your component
+      setOutput(newData); 
   
       setDataLoader(false);
     } catch (error) {

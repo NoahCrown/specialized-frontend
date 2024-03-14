@@ -42,9 +42,9 @@ const SearchResult = () => {
         </button>
       </div>
       <div className="min-h-fit">
-        {isBulkInferenceShowing ? 
+        {isBulkInferenceShowing && bulkInference &&  bulkInference.length > 0? 
           <Slider ref={sliderRef} {...settings}>
-            {bulkInference && bulkInference.map((item) => (
+            {bulkInference ? bulkInference.map((item) => (
               <PDFInfo
                 key={item.id}
                 id={item.id}
@@ -57,7 +57,7 @@ const SearchResult = () => {
                 locationConfidence = {item.confidence}
                 bulk={true}
               />
-            ))}
+            )) : ''}
           </Slider> // Render nothing when bulk inference is showing
         : (searchResults.length > 0 ? (
           <Slider ref={sliderRef} {...settings}>
@@ -65,7 +65,8 @@ const SearchResult = () => {
               <PDFInfo
                 key={item.id}
                 id={item.id}
-                first_name={item.name}
+                first_name={item.firstName}
+                last_name={item.lastName}
                 status={item.status || "N/A"}
               />
             ))}

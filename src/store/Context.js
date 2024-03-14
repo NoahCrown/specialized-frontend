@@ -55,48 +55,22 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Infered Age Data Context
-  const [inferedData, setInferedData] = useState(null);
 
-  const setInfered = (data) => {
-    setInferedData(data);
-  };
 
   // Infered Language Proficiency Context
-  const [inferedLangProficiency, setInferedLangProficiency] = useState(null);
 
-  const setInferedLang = (data) => {
-    setInferedLangProficiency(data);
-  };
 
   // Infered Location Data Context
-  const [inferedLocation, setInferedLocation] = useState(null);
 
-  const setInferedLoc = (data) => {
-    setInferedLocation(data);
-  };
 
   // Infered in Offshorly parser
   // Infered Age Data Context
-  const [inferedDataOffshorly, setInferedDataOffshorly] = useState(null);
 
-  const setInferedOffshorly = (data) => {
-    setInferedDataOffshorly(data);
-  };
 
   // Infered Language Proficiency Context
-  const [inferedLangProficiencyOffshorly, setInferedLangProficiencyOffshorly] = useState(null);
-
-  const setInferedLangOffshorly = (data) => {
-    setInferedLangProficiencyOffshorly(data);
-  };
-
+ 
   // Infered Location Data Context
-  const [inferedLocationOffshorly, setInferedLocationOffshorly] = useState(null);
 
-  const setInferedLocOffshorly = (data) => {
-    setInferedLocationOffshorly(data);
-    console.log(inferedLocationOffshorly)
-  };
 
 
   // Mode of Data Context
@@ -232,9 +206,6 @@ export const CandidateProvider = ({ children }) => {
 
   // Clear the output field
   const clearOutput = () => {
-    setInferedLang(null);
-    setInfered(null);
-    setInferedLoc(null);
     setResume(null);
   };
 
@@ -282,18 +253,6 @@ export const CandidateProvider = ({ children }) => {
         setOutput,
         searchResults,
         dataToInfer,
-        setInfered,
-        inferedData,
-        inferedLangProficiency,
-        setInferedLang,
-        inferedLocation,
-        setInferedLoc,
-        inferedDataOffshorly,
-        setInferedOffshorly,
-        inferedLangProficiencyOffshorly,
-        setInferedLangOffshorly,
-        inferedLocationOffshorly,
-        setInferedLocOffshorly,
         mode,
         setModeOfData,
         data,
