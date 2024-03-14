@@ -241,6 +241,18 @@ export const CandidateProvider = ({ children }) => {
     SetIsBulkInferenceShowing(!isBulkInferenceShowing)
   }
 
+  const [pendingInference, setPendingInference] = useState([])
+  const setPending = (data) => {
+    setPendingInference(...pendingInference, data)
+  }
+
+
+  const [completedInference, setCompletedInference] = useState([])
+
+  const setCompleted = (data) => {
+    setCompletedInference(...completedInference, data)
+  }
+
 
 
   return (
@@ -299,7 +311,11 @@ export const CandidateProvider = ({ children }) => {
         bulkInference,
         setBulkInferenceData,
         isBulkInferenceShowing,
-        showBulkInferenceData
+        showBulkInferenceData,
+        pendingInference,
+        completedInference,
+        setPending,
+        setCompleted
       }}
     >
       {children}

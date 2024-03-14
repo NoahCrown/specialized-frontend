@@ -3,6 +3,7 @@ import { useCandidate } from "../store/Context";
 import axios from "axios";
 
 import PromptInput from "./Prompt/PromptInput";
+import QueueInference from "./Prompt/QueueInference";
 
 const Prompt = () => {
   const {
@@ -20,6 +21,8 @@ const Prompt = () => {
   const [unsavedAgePrompts, setUnsavedAgePrompts] = useState([]);
   const [unsavedLangPrompts, setUnsavedLangPrompts] = useState([]);
   const [unsavedLocPrompts, setUnsavedLocPrompts] = useState([]);
+
+  const [showQueue, setShowQueue] = useState(false)
 
   const handleOnChange = async (event) => {
     const val = event.target.value;
@@ -129,9 +132,20 @@ const Prompt = () => {
   };
 
   return (
-    <div className="bg-[#F5F5F5] p-6 flex flex-col justify-start w-[37.5%] gap-6 no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
-      <div className="mt-10 flex flex-col gap-6">
+    <div className="bg-[#F5F5F5] p-6 pt-0 flex flex-col justify-start w-[37.5%] gap-6 no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
+    <div className=" absolute z-50 right-15 ">
+    <button className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-fit rounded-md p-6 px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+     onClick={() => setShowQueue(!showQueue)}>
+     {showQueue ? "Hide Queue" : 'Show Queue'}
+     </button>
+     {showQueue && <QueueInference/>}
+    </div>
+
+
+      <div className="mt-16 flex flex-col gap-6">
+      
         <div className="flex justify-between gap-5 items-center">
+ 
           <h1 className="text-3xl font-bold">Prompt</h1>
           <div>
             <select
