@@ -11,7 +11,6 @@ const OutputButtons = () => {
     handleOpenPdfInNewTab,
     showPushingModal,
     mode,
-    selectedFile,
     candidateId,
     setResume,
     setDataLoader,
@@ -38,13 +37,6 @@ const OutputButtons = () => {
     }
   };
 
-  // const openFileInNewTab = (selectedFile) => {
-  //   if (selectedFile) {
-  //     const fileURL = URL.createObjectURL(selectedFile);
-  //     window.open(fileURL, "_blank");
-  //   }
-  // };
-
   return (
     <>
       <div className="flex flex- justify-between items-center mb-5">
@@ -55,8 +47,7 @@ const OutputButtons = () => {
           <>
             <div className="flex gap-4 w-[60%]">
               <button
-                onClick={setToggleFileList
-                }
+                onClick={setToggleFileList}
                 className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-1/2 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
               >
                 <i class="fa-regular fa-eye"></i> View CV

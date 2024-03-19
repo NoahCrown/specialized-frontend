@@ -3,6 +3,7 @@ import { useCandidate } from "../../store/Context";
 
 const Skills = () => {
   const { promptResult } = useCandidate();
+  console.log(promptResult)
   return (
     <div>
       <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">

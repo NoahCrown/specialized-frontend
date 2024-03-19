@@ -4,12 +4,8 @@ import { useCandidate } from "../../store/Context";
 const QueueInference = () => {
   const [showCompleted, setShowIsCompleted] = useState(false);
 
-  const { pendingInference, completedInference, setPending, setCompleted } =
+  const { pendingInference, completedInference } =
     useCandidate();
-
-  console.log(showCompleted);
-  console.log(completedInference);
-  console.log(pendingInference)
 
   return (
     <div className=" bg-[#F5F5F5] max-w-[100%] pt-4 p-6">

@@ -7,7 +7,6 @@ const PersonalInfo = () => {
         promptResult,
         epochToDateString
       } = useCandidate();
-      console.log(promptResult[0])
   return (
     <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">
         <p className="text-black py-2 font-semibold">Personal Information</p>

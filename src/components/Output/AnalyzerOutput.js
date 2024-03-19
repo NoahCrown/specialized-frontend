@@ -15,7 +15,7 @@ const AnalyzerOutput = () => {
       {/* Skills and Qualification */}
       <Skills />
       {/* Inferred Data Result  */}
-      <InferredResult/>
+      <InferredResult />
     </>
   );
 };
