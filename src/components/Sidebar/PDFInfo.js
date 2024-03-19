@@ -14,6 +14,7 @@ const PDFInfo = ({
   languageSkills,
   Location,
   locationConfidence,
+  result
 }) => {
   const {
     setCandidate,
@@ -26,7 +27,8 @@ const PDFInfo = ({
     mode,
     setLoaderDetails,
   } = useCandidate();
-  console.log(Age, ageConfidence, bulk, languageSkills);
+  console.log(Age, ageConfidence, bulk, languageSkills, result);
+
 
   const handleClick = async () => {
     setDataLoader(true);
@@ -45,16 +47,30 @@ const PDFInfo = ({
       setThisNewData(true);
       setDataLoader(false);
       if (bulk) {
-        const newData = {
-          ...response.data,
-          ...(Age && ageConfidence && { inferredAge: { Age, ageConfidence } }),
-          ...(languageSkills && { languageSkills }),
-          ...(Location && locationConfidence && { inferredLocation: { Location, locationConfidence } })
-        };
+        let newData = { ...response.data };
+      
+        if (result.Age) {
+          newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
+        } else if (Age && ageConfidence) {
+          newData.inferredAge = { Age, ageConfidence };
+        }
+
+        if (result.languageSkills) {
+          newData.languageSkills = result;
+        } else if (languageSkills) {
+          newData.languageSkills = languageSkills;        }
+      
+          if (result.Location) {
+            newData.inferredLocation = { Location: result.Location, locationConfidence: result.confidence };
+          } else if (Age && ageConfidence) {
+            newData.inferredLocation = { Location, locationConfidence };
+          }
+      
         setOutput(newData);
       } else {
         setOutput(response.data);
       }
+      
       
     } catch (error) {
       console.error(error);

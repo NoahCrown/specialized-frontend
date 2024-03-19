@@ -8,6 +8,8 @@ import socketIOClient from "socket.io-client";
 function PromptInput({ prompt, id, onDelete, label }) {
   const [isTextboxVisible, setTextboxVisible] = useState(false);
   const [responseText, setResponseText] = useState(prompt);
+  const [selectedAction, setSelectedAction] = useState("run_prompt");
+
   const {
     candidateId,
     dataToInfer,
@@ -26,13 +28,60 @@ function PromptInput({ prompt, id, onDelete, label }) {
     isRunningInBulk,
     pendingInference,
     completedInference,
+    setBulkInferenceData,
     setPending,
-    setCompleted
+    setCompleted,
   } = useCandidate();
 
+  const handleActionChange = (event) => {
+    setSelectedAction(event.target.value);
+  };
 
+  const handleActionExecute = () => {
+    // Handle the submission based on the selected action
+    switch (selectedAction) {
+      case "run_prompt":
+        handleSubmitPrompt();
+        break;
+      case "run_queue":
+        handleRunQueue();
+        break;
+      case "run_bulk":
+        showRunInBulk();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSocketEvents = (response, socket) => {
+    setInterval(() => {
+      if (response.data.job_id) {
+        socket.emit("check_job", { job_id: response.data.job_id });
+      }
+    }, 1000); 
+    
+  
+    socket.on("job_complete", (job) => {
+      if (job.status === "success") {
+        setCompleted(job);
+      }
+    });
+  
+    socket.on("job_failed", (job) => {
+      console.log("Job failed:", job);
+    });
+  
+    socket.on("job_pending", (job) => {
+      console.log("Job pending:", job);
+        setPending(job)
+  
+    });
+  };
+  
 
   const handleRunQueue = async () => {
+    toast.success("Added inference to the queue.");
     const data = {
       response: responseText,
       candidateId: candidateId,
@@ -47,25 +96,11 @@ function PromptInput({ prompt, id, onDelete, label }) {
         },
       });
       const socket = socketIOClient("http://127.0.0.1:5000");
-      console.log(response.data)
-      setInterval(() => {
-        if (response.data.job_id) {
-          socket.emit("check_job", { job_id: response.data.job_id });
-        }
-        socket.on("job_complete", (job) => {
-          console.log("Job completed:", job); 
-        });
-        socket.on("job_failed", (job) => {   
-
-          console.log("Job failed:", job);
-        });
-        socket.on("job_pending", (job) => {
-          console.log("Job pending:", job);
-        });
-      }, 15000);// Emit job_id to server
-      
+      console.log(response.data);
+      handleSocketEvents(response, socket,)
     } catch (error) {
       console.error("Error enqueuing data:", error);
+      toast.warn("Queue inference failed for candidate " + candidateId);
     }
   };
 
@@ -193,40 +228,39 @@ function PromptInput({ prompt, id, onDelete, label }) {
                 onChange={(e) => setResponseText(e.target.value)}
               />
 
-              <div className="flex items-center justify-between px-4">
-                <p
-                  onClick={savePrompt}
-                  className="underline font-bold hover:cursor-pointer"
-                >
-                  Save
-                </p>
-                <button onClick={onDelete || deletePrompt}>
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-                
-                <div className="flex justify-center items-center  gap-2 ">
+              <div className="flex items-center justify-between gap-2 px-4">
+                <div className="flex ">
                   <button
-                    className="my-3 bg-black text-white font-bold py-2 px-4 rounded "
-                    onClick={handleSubmitPrompt}
+                    onClick={savePrompt}
+                    className="underline font-bold hover:cursor-pointer"
                   >
-                    Run Prompt
+                    <i class="fa-regular fa-floppy-disk mr-1"></i>
+                    Save
+                  </button>
+                  <h1 className="text-[#919191]">|</h1>
+                  <button
+                    className="underline font-bold hover:cursor-pointer"
+                    onClick={onDelete || deletePrompt}
+                  >
+                    <i class="fa-regular fa-trash-can mr-1"></i>
+                    Delete
                   </button>
                 </div>
-              </div>
-              <div className="flex justify-between items-center">
-                <p className="px-4 underline">More options: </p>
-                <div className="flex justify-center items-center gap-6">
-                <button
-                    className="my-3 bg-black text-white font-bold py-2 px-4 rounded "
-                    onClick={showRunInBulk}
+
+                <div className="flex justify-center items-center  gap-2 ">
+                  <select
+                    onChange={handleActionChange}
+                    className=" text-md focus:outline-none bg-[#F8F8F8] p-1 border-2 border-solid border-[#EAEAEA] "
                   >
-                    Run in Bulk
-                  </button>
+                    <option value="run_prompt">Run Prompt</option>
+                    <option value="run_queue">Run in Queue</option>
+                    <option value="run_bulk">Run in Bulk</option>
+                  </select>
                   <button
-                    className="my-3 bg-black text-white font-bold py-2 px-4 rounded "
-                    onClick={handleRunQueue}
+                    className="w-[60%] bg-black text-white font-bold py-2 px-4 rounded "
+                    onClick={handleActionExecute}
                   >
-                    Run in Queue
+                    Run
                   </button>
                 </div>
               </div>

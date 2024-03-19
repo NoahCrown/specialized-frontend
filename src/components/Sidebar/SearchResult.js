@@ -33,7 +33,7 @@ const SearchResult = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center px-10 mb-3 ">
-        <p className="">{isBulkInferenceShowing ? 'Bulk Inference Result' : 'Result'}</p>
+        <p className="">{isBulkInferenceShowing ? 'Inference Results' : 'Result'}</p>
         <button
           onClick={showBulkInferenceData}
           className="border border-black border-solid text-black w-1/3 rounded-md hover:border-black hover:text-black hover:cursor-pointer"
@@ -56,6 +56,7 @@ const SearchResult = () => {
                 Location = {item.Location}
                 locationConfidence = {item.confidence}
                 bulk={true}
+                result={item.result}
               />
             )) : ''}
           </Slider> // Render nothing when bulk inference is showing

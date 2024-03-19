@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 
 
@@ -231,9 +231,9 @@ export const CandidateProvider = ({ children }) => {
 
   }
 
-  const [bulkInference, setBulkInference] = useState(null)
+  const [bulkInference, setBulkInference] = useState([])
   const setBulkInferenceData = (data) => {
-    setBulkInference(data)
+    setBulkInference(prevState => [...prevState, data])
   }
 
   const [isBulkInferenceShowing, SetIsBulkInferenceShowing] = useState(false)
@@ -241,17 +241,73 @@ export const CandidateProvider = ({ children }) => {
     SetIsBulkInferenceShowing(!isBulkInferenceShowing)
   }
 
-  const [pendingInference, setPendingInference] = useState([])
-  const setPending = (data) => {
-    setPendingInference(...pendingInference, data)
-  }
+  const [pendingInference, setPendingInference] = useState([]);
+
+  const setPending = (job) => {
+    setPendingInference((prevState) => {
+      if (!prevState.some(existingJob => existingJob.id === job.id)) {
+        return [...prevState, job];
+      }
+      return prevState;
+    });
+  };
+  
+  
+  
+  
+
+const [completedInference, setCompletedInference] = useState([]);
+console.log(completedInference)
+console.log(bulkInference)
 
 
-  const [completedInference, setCompletedInference] = useState([])
+const setCompleted = (job) => {
+  console.log(job)
+  setCompletedInference(prevState => {
+    console.log(prevState)
+    let jobFound = false;
+    const updatedState = prevState.map(existingJob => {
+      if (existingJob.id === job.id) {
+        jobFound = true;
+        // Merge the existing job with the new result
+        // Assuming job.result is the updated part you want to merge
+        return {
+          ...existingJob,
+          result: {
+            ...existingJob.result,
+            ...job.result,
+          },
+        };
+      }
+      return existingJob;
+    });
 
-  const setCompleted = (data) => {
-    setCompletedInference(...completedInference, data)
-  }
+    // If the job wasn't found in the existing state, add it as a new entry
+    if (!jobFound) {
+      return [...updatedState, job];
+    }
+
+    // Otherwise, return the updated state
+    return updatedState;
+  });
+
+  // Remove the job from pendingInference if it exists there
+  setPendingInference(prevState => prevState.filter(candidate => candidate.id !== job.id));
+
+  // Assuming setBulkInferenceData is intended to use the latest state,
+  // you may need to ensure that this action is performed after state updates,
+  // possibly using useEffect or callbacks to ensure timing.
+  setBulkInferenceData(job);
+};
+
+
+
+
+
+
+
+
+
 
 
 

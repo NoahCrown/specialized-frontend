@@ -2,10 +2,11 @@ import React from "react";
 import { useCandidate } from "../../store/Context";
 
 const InferredResult = () => {
-  const { promptResult,mode, inferedData, inferedLangProficiency, inferedLocation , inferedDataOffshorly, inferedLangProficiencyOffshorly, inferedLocationOffshorly } =
+  const { promptResult,mode } =
     useCandidate();
     console.log(mode)
     console.log(promptResult)
+    
   return (
     <>
       {/* Inferred Age  */}
