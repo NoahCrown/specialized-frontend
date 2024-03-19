@@ -2,10 +2,9 @@ import React from "react";
 import { useCandidate } from "../../store/Context";
 
 const InferredResult = () => {
-  const { promptResult,mode } =
+  const { promptResult } =
     useCandidate();
-    console.log(mode)
-    console.log(promptResult)
+
     
   return (
     <>

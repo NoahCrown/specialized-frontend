@@ -233,8 +233,29 @@ export const CandidateProvider = ({ children }) => {
 
   const [bulkInference, setBulkInference] = useState([])
   const setBulkInferenceData = (data) => {
-    setBulkInference(prevState => [...prevState, data])
-  }
+    setBulkInference((prevState) => {
+      // Find if the incoming data's candidate already exists in the state
+      const existingIndex = prevState.findIndex((item) => item.id === data.id);
+      if (existingIndex !== -1) {
+        // If exists, merge the results and return the updated state
+        const newState = [...prevState];
+        const existingItem = newState[existingIndex];
+        newState[existingIndex] = {
+          ...existingItem,
+          // Assuming you want to merge or concatenate results, adjust this according to your data structure
+          result: {
+            ...existingItem.result,
+            ...data.result,
+          },
+        };
+        return newState;
+      } else {
+        // If the candidate does not exist, add it as a new entry
+        return [...prevState, data];
+      }
+    });
+  };
+  
 
   const [isBulkInferenceShowing, SetIsBulkInferenceShowing] = useState(false)
   const showBulkInferenceData = () => {
