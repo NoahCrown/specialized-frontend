@@ -4,95 +4,70 @@ import PDFInfo from "../Sidebar/PDFInfo";
 import { useCandidate } from "../../store/Context";
 
 const SearchResult = () => {
-  const { data, searchResults, isBulkInferenceShowing, showBulkInferenceData, bulkInference } =
-    useCandidate();
-    console.log(bulkInference)
-  var settings = {
+  const {
+    data, searchResults,inferenceResult, isInferenceResultShowing,
+    toggleInferenceResult,
+  } = useCandidate();
+
+  const settings = {
     infinite: false,
     speed: 700,
-    slidesToShow: 3, // Ensure that it always shows three items
+    slidesToShow: 3,
     slidesToScroll: 2,
     arrows: false,
-    slidesPerRows: 3, // Changed from slidesPerRows to slidesPerRow
+    slidesPerRows: 3,
     vertical: true,
     verticalSwiping: false,
     swipeToSlide: true,
     focusOnSelect: true,
   };
 
+  
+
   const sliderRef = React.createRef();
 
-  const next = () => {
-    sliderRef.current.slickNext();
-  };
-
-  const previous = () => {
-    sliderRef.current.slickPrev();
-  };
+  // Simplify and centralize data selection logic
+  const currentData = isInferenceResultShowing ? inferenceResult : searchResults.length > 0 ? searchResults : data;
+  const hasData = currentData && currentData.length > 0;
+  
+  const renderPDFInfo = (item) => (
+    <PDFInfo
+      key={item.id}
+      id={item.id}
+      first_name={item.firstName || item.name}
+      last_name={item.lastName}
+      status={item.status || "N/A"}
+      // Add additional props as needed
+    />
+  );
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center px-10 mb-3 ">
-        <p className="">{isBulkInferenceShowing ? 'Inference Results' : 'Result'}</p>
-        <button
-          onClick={showBulkInferenceData}
-          className="border border-black border-solid text-black w-1/3 rounded-md hover:border-black hover:text-black hover:cursor-pointer"
-        >
-          <i className="fa-solid fa-shuffle"></i> {/* Changed class to className */}
+      <div className="flex justify-between items-center px-10 mb-3">
+        <p>{isInferenceResultShowing ? 'Inference Results' : 'Result'}</p>
+        <button onClick={toggleInferenceResult} className="px-4 border border-black text-black rounded-md hover:border-black hover:text-black hover:cursor-pointer">
+          <i className="fa-solid fa-shuffle"></i>
         </button>
       </div>
       <div className="min-h-fit">
-        {isBulkInferenceShowing && bulkInference &&  bulkInference.length > 0? 
+        {hasData ? (
           <Slider ref={sliderRef} {...settings}>
-            {bulkInference ? bulkInference.map((item) => (
-              <PDFInfo
-                key={item.id}
-                id={item.id}
-                first_name={item.name}
-                status={item.status}
-                Age= {item.Age}
-                ageConfidence = {item.confidence}
-                languageSkills = {item.languageSkills }
-                Location = {item.Location}
-                locationConfidence = {item.confidence}
-                bulk={true}
-                result={item.result}
-              />
-            )) : ''}
-          </Slider> // Render nothing when bulk inference is showing
-        : (searchResults.length > 0 ? (
-          <Slider ref={sliderRef} {...settings}>
-            {searchResults.map((item) => (
-              <PDFInfo
-                key={item.id}
-                id={item.id}
-                first_name={item.firstName}
-                last_name={item.lastName}
-                status={item.status || "N/A"}
-              />
-            ))}
+            {currentData.map(renderPDFInfo)}
           </Slider>
         ) : (
-          <Slider {...settings} ref={sliderRef}>
-            {data.map((item) => (
-              <PDFInfo
-                key={item.id}
-                id={item.id}
-                first_name={item.firstName}
-                last_name={item.lastName}
-                status={item.status || "N/A"}
-              />
-            ))}
-          </Slider>
-        ))}
-        <div className="text-center flex justify-evenly p-2 ">
-          <button className="button" onClick={previous}>
-            <i className="fa-solid fa-arrow-left"></i> {/* Changed class to className */}
-          </button>
-          <button className="button" onClick={next}>
-            <i className="fa-solid fa-arrow-right"></i> {/* Changed class to className */}
-          </button>
-        </div>
+          // Optionally, render a message or a loader here
+          <p>No data available.</p>
+        )}
+        {hasData && (
+          <div className="text-center flex justify-evenly p-2">
+            <button className="button" onClick={() => sliderRef.current.slickPrev()}>
+              <i className="fa-solid fa-arrow-left"></i>
+            </button>
+            <button className="button" onClick={() => sliderRef.current.slickNext()}>
+              <i className="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

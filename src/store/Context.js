@@ -86,10 +86,7 @@ export const CandidateProvider = ({ children }) => {
   };
 
   // Missing Data Search Result
-  const [missingDataToSearch, setMissingDataToSearch] = useState(null);
-  const setSearchMissingData = (data) => {
-    setMissingDataToSearch(data);
-  };
+
 
   // Data loading Loader Context
   const [isLoading, setIsLoading] = useState(false);
@@ -104,11 +101,6 @@ export const CandidateProvider = ({ children }) => {
     setIsPushingToBullhorn(!isPushingToBullhorn)
   }
 
-  // Run in bulk modal
-  const [isRunningInBulk, setIsRunningInBulk] = useState(false)
-  const showRunInBulk = () => {
-    setIsRunningInBulk(!isRunningInBulk)
-  }
 
   // Opening PDF Logic Context
   const handleOpenPdfInNewTab = (base64Pdf) => {
@@ -231,9 +223,17 @@ export const CandidateProvider = ({ children }) => {
 
   }
 
-  const [bulkInference, setBulkInference] = useState([])
+  const [bulkInference, setBulkInference] = useState(null)
   const setBulkInferenceData = (data) => {
-    setBulkInference((prevState) => {
+    setBulkInference(prevState => Array.isArray(data) ? [...prevState, ...data] : [...prevState, data]);
+    setInferenceData(data);
+};
+
+
+
+  const [inferenceResult, setInferenceResult] = useState([])
+  const setInferenceData = (data) => {
+    setInferenceResult((prevState) => {
       // Find if the incoming data's candidate already exists in the state
       const existingIndex = prevState.findIndex((item) => item.id === data.id);
       if (existingIndex !== -1) {
@@ -254,12 +254,12 @@ export const CandidateProvider = ({ children }) => {
         return [...prevState, data];
       }
     });
-  };
+  }
   
 
-  const [isBulkInferenceShowing, SetIsBulkInferenceShowing] = useState(false)
-  const showBulkInferenceData = () => {
-    SetIsBulkInferenceShowing(!isBulkInferenceShowing)
+  const [isInferenceResultShowing, setIsInferenceResultShowing] = useState(false)
+  const toggleInferenceResult = () => {
+    setIsInferenceResultShowing(!isInferenceResultShowing)
   }
 
   const [pendingInference, setPendingInference] = useState([]);
@@ -318,7 +318,7 @@ const setCompleted = (job) => {
   // Assuming setBulkInferenceData is intended to use the latest state,
   // you may need to ensure that this action is performed after state updates,
   // possibly using useEffect or callbacks to ensure timing.
-  setBulkInferenceData(job);
+  setInferenceData(job);
 };
 
 
@@ -373,8 +373,6 @@ const setCompleted = (job) => {
         setResume,
         clearOutput,
         setSearchData,
-        missingDataToSearch,
-        setSearchMissingData,
         isPushingToBullhorn,
         showPushingModal,
         username,
@@ -383,16 +381,16 @@ const setCompleted = (job) => {
         setAppPassword,
         isAuthorized,
         login,
-        isRunningInBulk,
-        showRunInBulk,
         bulkInference,
         setBulkInferenceData,
-        isBulkInferenceShowing,
-        showBulkInferenceData,
+        isInferenceResultShowing,
+        toggleInferenceResult,
         pendingInference,
         completedInference,
         setPending,
-        setCompleted
+        setCompleted,
+        inferenceResult,
+        setInferenceData
       }}
     >
       {children}

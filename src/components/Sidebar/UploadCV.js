@@ -1,11 +1,10 @@
 import React, { useRef } from "react";
 import { useCandidate } from "../../store/Context";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { uploadFile } from '../../services/apiServices'; // Make sure to import correctly
 
 const UploadCV = () => {
   const fileInputRef = useRef(null);
-
   const {
     setOutput,
     setModeOfData,
@@ -13,67 +12,62 @@ const UploadCV = () => {
     setUploadFile,
     setDataLoader,
     setLoaderDetails,
-    mode,
     setCandidate,
     clearOutput
   } = useCandidate();
+
   const handleDivClick = () => {
-    // Trigger the hidden file input click event
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
   const handleFileChange = (event) => {
-    setUploadFile(event.target.files[0]);
-    toast.success("Filed Added Successfully");
+    const file = event.target.files[0];
+    if (file) {
+      setUploadFile(file);
+      toast.success("File added successfully");
+    }
   };
 
   const handleUpload = async () => {
     if (!selectedFile) {
+      toast.warn("No file selected");
       return;
     }
-    toast.success("Uploading file, please wait.");
-    clearOutput()
-    setLoaderDetails("Parsing");
     setDataLoader(true);
+    clearOutput();
+    setLoaderDetails("Parsing");
 
-    const pdfData = new FormData();
-    pdfData.append("pdfFile", selectedFile); 
-
-    await axios
-      .post("/api/upload", pdfData)
-
-      .then((response) => {
-        // Handle the response from the server
-        setOutput(response.data);
-        toast.success("File uploaded successfully");
-        setCandidate(null)
-        setDataLoader(false);
-        setModeOfData("CV");
-
-        
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.error("Error uploading file:", error);
-      });
+    try {
+      const data = await uploadFile(selectedFile);
+      setOutput(data);
+      setCandidate(null);
+      setModeOfData("CV");
+    } catch (error) {
+      // Error handling is done in uploadFile
+    } finally {
+      setDataLoader(false);
+    }
   };
 
   const handleFileRemove = () => {
-    setUploadFile(null); 
-    toast.success("File Removed Successfully");
+    setUploadFile(null);
+    toast.success("File removed successfully");
   };
 
   const handleDrag = (event) => {
     event.preventDefault();
   };
+
   const handleDrop = (event) => {
     event.preventDefault();
-    setUploadFile(event.dataTransfer.files[0]);
-    toast.success("Filed Added Successfully");
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      setUploadFile(file);
+      toast.success("File added successfully");
+    }
   };
-
   return (
     <div className="flex justify-center items-center flex-col p-3 w-[80%] px-4 border-solid border-b-2 border-[#E7E7E7]">
       <div className="w-[100%] flex flex-col">

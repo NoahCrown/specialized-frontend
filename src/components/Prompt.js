@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCandidate } from "../store/Context";
+
 import axios from "axios";
 
 import PromptInput from "./Prompt/PromptInput";
@@ -108,7 +109,7 @@ const Prompt = () => {
     };
 
     loadPromptData();
-  }, [dataToInfer]);
+  }, [dataToInfer,]);
 
   const addPromptInput = () => {
     if (dataToInfer === "age") {
@@ -156,13 +157,6 @@ const Prompt = () => {
 
   return (
     <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
-      {/* <div className=" absolute z-50 right-15 ">
-    <button className="border border-black border-solid text-black font-bold bg-[#F5F5F5] w-fit rounded-md p-6 px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
-     onClick={() => setShowQueue(!showQueue)}>
-     {showQueue ? "Hide Queue" : 'Show Queue'}
-     </button>
-     {showQueue && <QueueInference/>}
-    </div> */}
 
       <div className=" flex flex-col gap-6 border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6">
         <div className="flex justify-between gap-5 items-center ">

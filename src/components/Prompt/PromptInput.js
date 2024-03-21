@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useCandidate } from "../../store/Context";
 import { toast } from "react-toastify";
-import RunInBulk from "./RunInBulk";
 import socketIOClient from "socket.io-client";
+import { enqueueData, submitPrompt, savePrompt, deletePrompt } from '../../services/apiServices'; // Import the service functions
+import { runBulkInference } from '../../services/apiServices'; // Ensure this is imported
 
 function PromptInput({ prompt, id, onDelete, label }) {
   const [isTextboxVisible, setTextboxVisible] = useState(false);
@@ -14,23 +14,14 @@ function PromptInput({ prompt, id, onDelete, label }) {
     candidateId,
     dataToInfer,
     mode,
-    setAgePromptInputs,
-    setLanguagePromptInputs,
-    setLocationPromptInputs,
-    agePrompts,
-    languagePrompts,
-    locationPrompts,
     setDataLoader,
     setLoaderDetails,
     setOutput,
     promptResult,
-    showRunInBulk,
-    isRunningInBulk,
-    pendingInference,
-    completedInference,
-    setBulkInferenceData,
+
     setPending,
     setCompleted,
+    setBulkInferenceData
   } = useCandidate();
 
   const handleActionChange = (event) => {
@@ -38,7 +29,6 @@ function PromptInput({ prompt, id, onDelete, label }) {
   };
 
   const handleActionExecute = () => {
-    // Handle the submission based on the selected action
     switch (selectedAction) {
       case "run_prompt":
         handleSubmitPrompt();
@@ -47,7 +37,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
         handleRunQueue();
         break;
       case "run_bulk":
-        showRunInBulk();
+        handleRunInferenceBulk();
         break;
       default:
         break;
@@ -55,33 +45,29 @@ function PromptInput({ prompt, id, onDelete, label }) {
   };
 
   const handleSocketEvents = (response, socket) => {
-    setInterval(() => {
-      if (response.data.job_id) {
-        socket.emit("check_job", { job_id: response.data.job_id });
-      }
-    }, 1000); 
-    
-  
-    socket.on("job_complete", (job) => {
-      if (job.status === "success") {
-        setCompleted(job);
-      }
-    });
-  
-    socket.on("job_failed", (job) => {
-      console.log("Job failed:", job);
-    });
-  
-    socket.on("job_pending", (job) => {
-      console.log("Job pending:", job);
-        setPending(job)
-  
-    });
+    if (response.job_id) {
+      setInterval(() => {
+        socket.emit("check_job", { job_id: response.job_id });
+      }, 1000); 
+
+      socket.on("job_complete", (job) => {
+        if (job.status === "success") {
+          setCompleted(job);
+        }
+      });
+
+      socket.on("job_failed", (job) => {
+        console.log("Job failed:", job);
+      });
+
+      socket.on("job_pending", (job) => {
+        console.log("Job pending:", job);
+        setPending(job);
+      });
+    }
   };
-  
 
   const handleRunQueue = async () => {
-    toast.success("Added inference to the queue.");
     const data = {
       response: responseText,
       candidateId: candidateId,
@@ -90,16 +76,10 @@ function PromptInput({ prompt, id, onDelete, label }) {
     };
 
     try {
-      const response = await axios.post("/api/enqueue", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const responseData = await enqueueData(data);
       const socket = socketIOClient("http://127.0.0.1:5000");
-      console.log(response.data);
-      handleSocketEvents(response, socket,)
+      handleSocketEvents(responseData, socket);
     } catch (error) {
-      console.error("Error enqueuing data:", error);
       toast.warn("Queue inference failed for candidate " + candidateId);
     }
   };
@@ -111,91 +91,60 @@ function PromptInput({ prompt, id, onDelete, label }) {
       dataToInfer: dataToInfer,
       mode: mode,
     };
-    toast.success(`Inferring ${data.dataToInfer}, please wait.`);
-    setLoaderDetails("Inferring");
     setDataLoader(true);
+    setLoaderDetails("Inferring");
 
     try {
-      const response = await axios.post("/api/prompt_input", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      const responseData = await submitPrompt(data);
       const newData = {
         ...promptResult,
-        ...(dataToInfer === "age" && {
-          inferredAge: {
-            Age: response.data.Age,
-            ageConfidence: response.data.confidence,
-          },
-        }),
-        ...(dataToInfer === "languageSkills" && {
-          languageSkills: response.data.languageSkills,
-        }),
-        ...(dataToInfer === "location" && {
-          inferredLocation: {
-            Location: response.data.Location,
-            locationConfidence: response.data.confidence,
-          },
-        }),
+        ...(dataToInfer === "age" && { inferredAge: { Age: responseData.Age, ageConfidence: responseData.confidence } }),
+        ...(dataToInfer === "languageSkills" && { languageSkills: responseData.languageSkills }),
+        ...(dataToInfer === "location" && { inferredLocation: { Location: responseData.Location, locationConfidence: responseData.confidence } }),
       };
-
       setOutput(newData);
-
       setDataLoader(false);
     } catch (error) {
-      console.error("Error:", error);
-      toast.warn("Failed to infer data, please try again later.");
       setDataLoader(false);
     }
   };
 
-  const savePrompt = async () => {
+  const handleSavePrompt = async () => {
+    // Prepare the data object correctly according to your backend expectations
+    const data = { id, response: responseText, dataToInfer };
     try {
-      const data = { response: responseText, dataToInfer: dataToInfer };
-      const response = await axios.post("/api/save_prompt", data);
-      toast.success("Prompt successfully saved.");
+      await savePrompt(data);
     } catch (error) {
-      console.error("Error saving prompt:", error);
-      toast.warn("Failed to save prompt");
+      // Error handling is already done in the service
     }
   };
 
-  const deletePrompt = async () => {
+  const handleRunInferenceBulk = async () => {
+    toast.success('Running candidates on bulk, this may take a while.')
     try {
-      const data = { dataToInfer: dataToInfer };
-      const response = await axios.post(`/api/delete_prompt/${id}`, data);
-      console.log("Prompt deleted successfully:", response.data);
-
-      const promptIndexToDelete = id;
-
-      if (dataToInfer === "age") {
-        setAgePromptInputs(
-          agePrompts.filter((_, index) => index !== promptIndexToDelete)
-        );
-      } else if (dataToInfer === "languageSkills") {
-        setLanguagePromptInputs(
-          languagePrompts.filter((_, index) => index !== promptIndexToDelete)
-        );
-      } else if (dataToInfer === "location") {
-        setLocationPromptInputs(
-          locationPrompts.filter((_, index) => index !== promptIndexToDelete)
-        );
-      }
-
-      toast.success("Prompt successfully deleted.");
+      const data = await runBulkInference(prompt, dataToInfer);
+      setBulkInferenceData(data);
+      toast.success("Bulk inference success!");
     } catch (error) {
-      console.error("Error deleting prompt:", error);
-      toast.error("Failed to delete prompt.");
+      toast.warn('Bulk inference failed. Please try again.')
+      // The toast error handling is already done in runBulkInference
+    } finally {
+
     }
   };
 
+  const handleDeletePrompt = async () => {
+    try {
+      if (onDelete) onDelete(id);
+      await deletePrompt(id, dataToInfer);
+      // Call onDelete prop or any state update function here if necessary
+    } catch (error) {
+      // Error handling is already done in the service
+    }
+  };
+  
   return (
     <>
-      {isRunningInBulk ? (
-        <RunInBulk prompt={prompt} />
-      ) : (
         <div className="relative bg-white text-black">
           <div
             onClick={() => setTextboxVisible(!isTextboxVisible)}
@@ -231,7 +180,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
               <div className="flex items-center justify-between gap-2 px-4">
                 <div className="flex ">
                   <button
-                    onClick={savePrompt}
+                    onClick={handleSavePrompt}
                     className="underline font-bold hover:cursor-pointer"
                   >
                     <i class="fa-regular fa-floppy-disk mr-1"></i>
@@ -240,7 +189,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
                   <h1 className="text-[#919191]">|</h1>
                   <button
                     className="underline font-bold hover:cursor-pointer"
-                    onClick={onDelete || deletePrompt}
+                    onClick={handleDeletePrompt}
                   >
                     <i class="fa-regular fa-trash-can mr-1"></i>
                     Delete
@@ -267,7 +216,7 @@ function PromptInput({ prompt, id, onDelete, label }) {
             </div>
           )}
         </div>
-      )}
+
     </>
   );
 }

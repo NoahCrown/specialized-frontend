@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useCandidate } from "../../store/Context";
+import { parseBullhornData } from "../../services/apiServices"; // Make sure to import the service
 
 const ParserInfo = () => {
   const {
@@ -19,29 +19,27 @@ const ParserInfo = () => {
   const [parsedBullhornData, setParsedBullhornData] = useState(null);
   const [showParsedData, setShowParsedData] = useState(false);
 
-  const switchData = async () => {
+  const switchData = () => {
     const isShowingParsedData = !showParsedData;
     setShowParsedData(isShowingParsedData);
     setOutput(isShowingParsedData ? parsedBullhornData : defaultBullhornData);
     setModeOfData(isShowingParsedData ? "CV_bullhorn" : "bullhorn");
   };
 
-  const parseBullhornData = async () => {
-    setLoaderDetails("Parsing");
+  const handleParseBullhornData = async () => {
+    if (!promptResult || !promptResult[0]?.id) return;
     setDataLoader(true);
+    setLoaderDetails("Parsing");
     try {
-      toast.success("Parsing bullhorn data.");
-      const response = await axios.post("/api/extract_bullhorn", {
-        candidateId: promptResult[0].id,
-      });
-      setParsedBullhornData(response.data);
+      const data = await parseBullhornData(promptResult[0].id);
+      setParsedBullhornData(data);
       setThisNewData(false);
-      toast.success("Successfully parsed bullhorn data.");
     } catch (error) {
-      console.error(error);
-      toast.warn(`Error parsing resume: ${error.response?.data?.message || "Resume format is not supported"}`);
+      // Error handling is already done in parseBullhornData
+      console.log(promptResult[0].id)
+    } finally {
+      setDataLoader(false);
     }
-    setDataLoader(false);
   };
 
   return (
@@ -55,7 +53,7 @@ const ParserInfo = () => {
           {mode === "bullhorn" && isNewData ? (
             <button
               className="border border-black border-solid text-black bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
-              onClick={parseBullhornData}
+              onClick={handleParseBullhornData}
             >
               <i className="fa-solid fa-code"></i> Parse
             </button>

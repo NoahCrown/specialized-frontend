@@ -1,38 +1,25 @@
 import React, { useState } from "react";
 import { useCandidate } from "../../store/Context";
 import ParserInfo from "../Output/ParserInfo";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { fetchPDFs } from "../../services/apiServices"; // Import the service
+
 
 const OutputButtons = () => {
-  const {
-    promptResult,
-    resumeFiles,
-    handleOpenPdfInNewTab,
-    showPushingModal,
-    mode,
-    candidateId,
-    setResume,
-    setDataLoader,
-  } = useCandidate();
-
+  const { promptResult, resumeFiles, handleOpenPdfInNewTab, showPushingModal, mode, candidateId, setResume, setDataLoader } = useCandidate();
   const [isCVFileSelectorVisible, setIsCVFileSelectorVisible] = useState(false);
+
   const setToggleFileList = async () => {
     setIsCVFileSelectorVisible(!isCVFileSelectorVisible);
 
     if (!resumeFiles) {
       setDataLoader(true);
       try {
-        const responsePDF = await axios.post("/api/get_pdf", {
-          candidateId: candidateId,
-          mode: mode,
-        });
-        await setResume(responsePDF.data.files);
-        setDataLoader(false);
+        const files = await fetchPDFs(candidateId, mode);
+        setResume(files);
       } catch (error) {
-        console.error(error);
+        // Error handling is done in fetchPDFs
+      } finally {
         setDataLoader(false);
-        toast.warn("Error: Data unavailable, please try again.");
       }
     }
   };

@@ -7,6 +7,7 @@ import NoData from '../Output/NoData';
 const ResultBulk = () => {
     const {bulkInference} =
     useCandidate();
+    console.log(bulkInference)
   return (
     <div className='p-4'>
     <div className="overflow-auto max-h-[40vh] p-2">

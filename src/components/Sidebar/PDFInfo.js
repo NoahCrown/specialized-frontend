@@ -1,7 +1,8 @@
 import React from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useCandidate } from "../../store/Context";
+import { fetchCandidateInfo } from '../../services/apiServices'; // Make sure this is imported correctly
+
 const PDFInfo = ({
   id,
   first_name,
@@ -32,22 +33,23 @@ const PDFInfo = ({
 
   const handleClick = async () => {
     setDataLoader(true);
+    toast.success('Running candidate ' + id)
 
     try {
       // Send a POST request to the Flask backend
-      const response = await axios.post("/api/get_candidate", {
-        candidateId: id,
-      });
+      const response = await fetchCandidateInfo(id);
+      console.log(response)
+
       await setModeOfData("bullhorn");
       setCandidate(id);
       console.log(mode);
       clearOutput();
       setLoaderDetails("Parsing");
-      setDisplayBullhorn(response.data);
+      setDisplayBullhorn(response);
       setThisNewData(true);
       setDataLoader(false);
       if (bulk) {
-        let newData = { ...response.data };
+        let newData = { ...response };
       
         if (result.Age) {
           newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
@@ -68,14 +70,12 @@ const PDFInfo = ({
       
         setOutput(newData);
       } else {
-        setOutput(response.data);
+        setOutput(response);
       }
       
-      
     } catch (error) {
-      console.error(error);
       setDataLoader(false);
-      toast.warn("Error: Data unavailable, please try again.");
+
     }
   };
 
