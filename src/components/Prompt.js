@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useCandidate } from "../store/Context";
+
 import axios from "axios";
 
 import PromptInput from "./Prompt/PromptInput";
+import QueueInference from "./Prompt/QueueInference";
+import ResultBulk from "./Prompt/ResultBulk";
 
 const Prompt = () => {
   const {
@@ -20,6 +23,10 @@ const Prompt = () => {
   const [unsavedAgePrompts, setUnsavedAgePrompts] = useState([]);
   const [unsavedLangPrompts, setUnsavedLangPrompts] = useState([]);
   const [unsavedLocPrompts, setUnsavedLocPrompts] = useState([]);
+
+  const [showQueue, setShowQueue] = useState(false);
+  const [showPromptInput, setShowPromptInput] = useState(false);
+  const [showBulkResult, setShowBulkResult] = useState(false)
 
   const handleOnChange = async (event) => {
     const val = event.target.value;
@@ -44,11 +51,11 @@ const Prompt = () => {
         const response = await axios.post("/api/load_prompt", {
           dataToInfer: null,
         });
-    
+
         if (response.data) {
           await setSavedPromptsData(response.data);
           const { age, languageSkills, location } = response.data;
-    
+
           const agePromptsArray = await Promise.all(
             age.map(async (id) => {
               const dataPrompt = await loadSavedPrompts("age", id);
@@ -63,7 +70,7 @@ const Prompt = () => {
             })
           );
           setAgePromptInputs(agePromptsArray);
-    
+
           const langPromptsArray = await Promise.all(
             languageSkills.map(async (id) => {
               const dataPrompt = await loadSavedPrompts("languageSkills", id);
@@ -78,10 +85,10 @@ const Prompt = () => {
             })
           );
           setLanguagePromptInputs(langPromptsArray);
-    
+
           const locPromptsArray = await Promise.all(
             location.map(async (id) => {
-              console.log(id)
+              console.log(id);
 
               const dataPrompt = await loadSavedPrompts("location", id);
               return (
@@ -100,7 +107,6 @@ const Prompt = () => {
         console.error("Error sending POST request:", error);
       }
     };
-    
 
     loadPromptData();
   }, [dataToInfer,]);
@@ -108,13 +114,34 @@ const Prompt = () => {
   const addPromptInput = () => {
     if (dataToInfer === "age") {
       const newIndex = unsavedAgePrompts.length;
-      setUnsavedAgePrompts([...unsavedAgePrompts, <PromptInput key={newIndex} index={newIndex} onDelete={deleteUnsavedPrompt} />]);
+      setUnsavedAgePrompts([
+        ...unsavedAgePrompts,
+        <PromptInput
+          key={newIndex}
+          index={newIndex}
+          onDelete={deleteUnsavedPrompt}
+        />,
+      ]);
     } else if (dataToInfer === "languageSkills") {
       const newIndex = unsavedLangPrompts.length;
-      setUnsavedLangPrompts([...unsavedLangPrompts, <PromptInput key={newIndex} index={newIndex} onDelete={deleteUnsavedPrompt} />]);
+      setUnsavedLangPrompts([
+        ...unsavedLangPrompts,
+        <PromptInput
+          key={newIndex}
+          index={newIndex}
+          onDelete={deleteUnsavedPrompt}
+        />,
+      ]);
     } else if (dataToInfer === "location") {
       const newIndex = unsavedLocPrompts.length;
-      setUnsavedLocPrompts([...unsavedLocPrompts, <PromptInput key={newIndex} index={newIndex} onDelete={deleteUnsavedPrompt} />]);
+      setUnsavedLocPrompts([
+        ...unsavedLocPrompts,
+        <PromptInput
+          key={newIndex}
+          index={newIndex}
+          onDelete={deleteUnsavedPrompt}
+        />,
+      ]);
     }
   };
 
@@ -129,13 +156,32 @@ const Prompt = () => {
   };
 
   return (
-    <div className="bg-[#F5F5F5] p-6 flex flex-col justify-start w-[37.5%] gap-6 no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
-      <div className="mt-10 flex flex-col gap-6">
-        <div className="flex justify-between gap-5 items-center">
-          <h1 className="text-3xl font-bold">Prompt</h1>
+    <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
+
+      <div className=" flex flex-col gap-6 border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6">
+        <div onClick={() => setShowPromptInput(!showPromptInput)}  className="flex justify-between gap-5 items-center ">
+          <button
+            className="text-3xl font-bold"
+            
+          >
+            Prompt
+          </button>
+          <div className="flex justify-center items-center gap-6">
+            
+            <button onClick={() => setShowPromptInput(!showPromptInput)}>
+              <i
+                className={`fa-solid fa-angle-${
+                  showPromptInput ? "up" : "down"
+                }`}
+              ></i>
+            </button>
+          </div>
+        </div>
+        {showPromptInput && (
           <div>
+            <div className="flex justify-start items-center mb-4 gap-1">
             <select
-              className="border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1"
+              className=" w-1/2 border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1 "
               value={dataToInfer}
               defaultValue="age"
               onChange={handleOnChange}
@@ -147,50 +193,95 @@ const Prompt = () => {
               <option value="languageSkills">Language Skills EN</option>
               <option value="location">Location</option>
             </select>
-          </div>
-        </div>
-        <div className="flex justify-center items-center">
-          <button
-            onClick={addPromptInput}
-            className="border border-[#ababab] border-dashed text-[#ababab] bg-[#F5F5F5] w-full rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
-          >
-            <i className="fa-solid fa-plus"></i> Add a new prompt
-          </button>
-        </div>
-        <div>
-          {dataToInfer === "age" && (
-            <div>
-              {agePrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
-              {unsavedAgePrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
+              <button
+                onClick={addPromptInput}
+                className=" text-black bg-[#F5F5F5] w-1/3 rounded-md  hover:border-black hover:text-black hover:cursor-pointer font-semibold "
+              >
+                <i class="fa-solid fa-circle-plus mr-1"></i> Add new prompt
+              </button>
             </div>
-          )}
+            <div>
+              {dataToInfer === "age" && (
+                <div>
+                  {agePrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                  {unsavedAgePrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                </div>
+              )}
 
-          {dataToInfer === "languageSkills" && (
-            <div>
-              {languagePrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
-              {unsavedLangPrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
+              {dataToInfer === "languageSkills" && (
+                <div>
+                  {languagePrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                  {unsavedLangPrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                </div>
+              )}
+              {dataToInfer === "location" && (
+                <div>
+                  {locationPrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                  {unsavedLocPrompts.map((prompt, index) => (
+                    <div key={index}>{prompt}</div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-          {dataToInfer === "location" && (
-            <div>
-              {locationPrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
-              {unsavedLocPrompts.map((prompt, index) => (
-                <div key={index}>{prompt}</div>
-              ))}
-            </div>
-          )}
-        </div>
+          </div>
+        )}
+
+
+
+        
+
       </div>
+      <div className="border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
+      <div onClick={() => setShowBulkResult(!showBulkResult) } 
+      className="flex justify-between gap-6 items-center">
+      <button
+            className="text-3xl font-bold"
+            onClick={() => setShowBulkResult(!showBulkResult)}
+          >
+            Bulk Inference Result
+          </button>
+          <button onClick={() => setShowBulkResult(!showBulkResult)}>
+              <i
+                className={`fa-solid fa-angle-${
+                  showBulkResult ? "up" : "down"
+                }`}
+              ></i>
+            </button>
+      
+
+      </div>
+        
+
+            {showBulkResult && <ResultBulk/>}
+        </div>
+
+      <div className="flex justify-between items-center border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
+          <button
+            className="text-3xl font-bold"
+            onClick={() => setShowQueue(!showQueue)}
+          >
+            Queue
+          </button>
+          <button onClick={() => setShowQueue(!showQueue)}>
+              <i
+                className={`fa-solid fa-angle-${
+                  showQueue ? "up" : "down"
+                }`}
+              ></i>
+            </button>
+        </div>
+
+        {showQueue && <QueueInference/>}
     </div>
   );
 };

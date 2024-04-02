@@ -1,78 +1,79 @@
-import React from 'react'
+import React from "react";
 import Slider from "react-slick";
 import PDFInfo from "../Sidebar/PDFInfo";
 import { useCandidate } from "../../store/Context";
 
-
-
 const SearchResult = () => {
-    const {
-        data,
-        searchResults,
-      } = useCandidate();
-    var settings = {
-        infinite: false,
-        speed: 700,
-        slidesToShow: 3,
-        slidesToScroll: 2,
-        arrows: false,
-        slidesPerRows: 3,
-        vertical: true,
-        verticalSwiping: false,
-        swipeToSlide: true,
-        focusOnSelect: true,
-      };
+  const {
+    data, searchResults,inferenceResult, isInferenceResultShowing,
+    toggleInferenceResult,
+  } = useCandidate();
 
-      const sliderRef = React.createRef();
-    
-      const next = () => {
-        sliderRef.current.slickNext();
-      };
-    
-      const previous = () => {
-        sliderRef.current.slickPrev();
-      };
-    
+  const settings = {
+    infinite: false,
+    speed: 700,
+    slidesToShow: 7,
+    slidesToScroll: 7,
+    arrows: false,
+    slidesPerRows: 7,
+    vertical: true,
+    verticalSwiping: false,
+    swipeToSlide: true,
+    focusOnSelect: true,
+  };
+
+  
+
+  const sliderRef = React.createRef();
+
+  // Simplify and centralize data selection logic
+  const currentData = isInferenceResultShowing ? inferenceResult : searchResults.length > 0 ? searchResults : data;
+  const hasData = currentData && currentData.length > 0;
+  
+  const renderPDFInfo = (item) => (
+    <PDFInfo
+      key={item.id}
+      id={item.id}
+      first_name={item.firstName || item.name}
+      last_name={item.lastName}
+      status={item.status || "N/A"}
+      // Add additional props as needed
+    />
+  );
+
   return (
     <div className="w-full">
-          <p className="px-10 mb-3">Results</p>
-          <div className="min-h-fit">
-            {searchResults.length > 0 ? (
-              <Slider ref={sliderRef} {...settings}>
-                {searchResults.map((item) => (
-                  <PDFInfo
-                    key={item.id}
-                    id={item.id}
-                    first_name={item.firstName}
-                    last_name={item.lastName}
-                    status={item.status || "N/A"}
-                  />
-                ))}
-              </Slider>
-            ) : (
-              <Slider {...settings} ref={sliderRef}>
-                {data.map((item) => (
-                  <PDFInfo
-                    key={item.id}
-                    id={item.id}
-                    first_name={item.firstName}
-                    last_name={item.lastName}
-                    status={item.status || "N/A"}
-                  />
-                ))}
-              </Slider>
-            )}
-            <div className="text-center flex justify-evenly p-2 ">
-              <button className="button" onClick={previous}>
-                <i class="fa-solid fa-arrow-left"></i>
-              </button>
-              <button className="button" onClick={next}>
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-  )
-}
+      <div className="flex justify-start items-center px-10 mb-3 gap-4">
+        <p onClick={toggleInferenceResult}  className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            !isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
+          } `}>Result</p>
+        <p onClick={toggleInferenceResult} className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
+          } `}>Inference Results</p>
 
-export default SearchResult
+      </div>
+      <div className="min-h-fit p-4">
+        {hasData ? (
+          <Slider ref={sliderRef} {...settings}>
+            {currentData.map(renderPDFInfo)}
+          </Slider>
+        ) : (
+          // Optionally, render a message or a loader here
+          <p>No data available.</p>
+        )}
+        {hasData && (
+          <div className="text-center flex justify-evenly p-2">
+            <button className="button" onClick={() => sliderRef.current.slickPrev()}>
+              <i className="fa-solid fa-arrow-left"></i>
+            </button>
+            <button className="button" onClick={() => sliderRef.current.slickNext()}>
+              <i className="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SearchResult;

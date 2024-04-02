@@ -7,7 +7,9 @@ import InferredResult from "./InferredResult";
 const AnalyzerOutput = () => {
   return (
     <>
-      <p className="text-[#919191] ">Resume information</p>
+            <p className="text-black font-bold mb-2  ">Resume information</p>
+
+    <div className="border-2 border-[#E7E7E7] px-4 ">
       {/* Personal Information  */}
       <PersonalInfo />
       {/* Job History  */}
@@ -15,8 +17,10 @@ const AnalyzerOutput = () => {
       {/* Skills and Qualification */}
       <Skills />
       {/* Inferred Data Result  */}
-      <InferredResult/>
+      <InferredResult />
+    </div>
     </>
+
   );
 };
 
