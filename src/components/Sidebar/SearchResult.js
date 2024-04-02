@@ -12,7 +12,7 @@ const SearchResult = () => {
   const settings = {
     infinite: false,
     speed: 700,
-    slidesToShow: 4,
+    slidesToShow: searchResults.length === 0 ? 4 : Math.min(4, searchResults.length),
     slidesToScroll: 4,
     arrows: false,
     slidesPerRows: 4,
@@ -58,7 +58,7 @@ const SearchResult = () => {
           } `}>Inference Results</p>
 
       </div>
-      <div className="min-h-fit p-4">
+      <div className="min-h-fit flex flex-col justify-start p-4">
         {hasData ? (
           <Slider ref={sliderRef} {...settings}>
             {currentData.map(renderPDFInfo)}
