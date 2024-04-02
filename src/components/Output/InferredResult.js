@@ -3,6 +3,7 @@ import { useCandidate } from "../../store/Context";
 
 const InferredResult = () => {
   const { promptResult } = useCandidate();
+  console.log(promptResult)
 
   return (
     <>

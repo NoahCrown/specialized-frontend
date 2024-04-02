@@ -12,10 +12,10 @@ const SearchResult = () => {
   const settings = {
     infinite: false,
     speed: 700,
-    slidesToShow: 7,
-    slidesToScroll: 7,
+    slidesToShow: 4,
+    slidesToScroll: 4,
     arrows: false,
-    slidesPerRows: 7,
+    slidesPerRows: 4,
     vertical: true,
     verticalSwiping: false,
     swipeToSlide: true,
@@ -37,7 +37,13 @@ const SearchResult = () => {
       first_name={item.firstName || item.name}
       last_name={item.lastName}
       status={item.status || "N/A"}
-      // Add additional props as needed
+      Age={item.Age}
+      ageConfidence={item.confidence}
+      languageSkills={item.languageSkills}
+      Location = {item.Location}
+      locationConfidence = {item.confidence}
+      result={item.result}
+      bulk={isInferenceResultShowing && inferenceResult && true}
     />
   );
 

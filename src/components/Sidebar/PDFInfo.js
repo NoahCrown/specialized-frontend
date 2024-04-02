@@ -48,30 +48,59 @@ const PDFInfo = ({
       setDisplayBullhorn(response);
       setThisNewData(true);
       setDataLoader(false);
+
+      console.log(bulk === true)
       if (bulk) {
-        let newData = { ...response };
-      
-        if (result.Age) {
-          newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
-        } else if (Age && ageConfidence) {
-          newData.inferredAge = { Age, ageConfidence };
+        console.log(bulk);
+        console.log(Age, ageConfidence)
+        console.log(languageSkills)
+        let newData = {...response};
+
+        if (Age){
+          newData.inferredAge = {Age, ageConfidence}     
+          console.log('works')   
         }
 
-        if (result.languageSkills) {
-          newData.languageSkills = result;
-        } else if (languageSkills) {
-          newData.languageSkills = languageSkills;        }
+        // if (Age && ageConfidence){
+        //   newData.inferredAge = {Age, ageConfidence}
+        //   console.log('works')
+        // }else if (result.Age) {
+        //   newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
+        // }
+
+        if ( languageSkills) {
+          newData.languageSkills = languageSkills
+          console.log('works')
+        // }else if (result.languageSkills){
+        //   newData.languageSkills = result.languageSkills
+        }
+
+
       
-          if (result.Location) {
-            newData.inferredLocation = { Location: result.Location, locationConfidence: result.confidence };
-          } else if (Age && ageConfidence) {
-            newData.inferredLocation = { Location, locationConfidence };
-          }
+        // if (result.Age) {
+        //   newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
+        //   console.log(result.Age);
+        // } else if (Age && ageConfidence) {
+        //   newData.inferredAge = { Age, ageConfidence };
+        //   console.log(Age, ageConfidence);
+        // }
+      
+
+      
+        // if (result.Location) {
+        //   newData.inferredLocation = { Location: result.Location, locationConfidence: result.confidence };
+        // } else if (Location && locationConfidence) {
+        //   newData.inferredLocation = { Location, locationConfidence };
+        // }
       
         setOutput(newData);
+        console.log(newData);
       } else {
         setOutput(response);
+        console.log(response);
       }
+      
+      
       
     } catch (error) {
       setDataLoader(false);

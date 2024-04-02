@@ -232,8 +232,8 @@ function PromptInput({ prompt, id, onDelete, label }) {
                   className=" text-md focus:outline-none bg-[#F8F8F8] p-1 border-2 border-solid border-[#EAEAEA] "
                 >
                   <option value="run_prompt">Run Prompt</option>
-                  <option value="run_queue">Run in Queue</option>
-                  <option value="run_bulk">Run in Bulk</option>
+                  {/* <option value="run_queue">Run in Queue</option>
+                  <option value="run_bulk">Run in Bulk</option> */}
                 </select>
                 <button
                   className="w-[60%] bg-black text-white font-bold py-2 px-4 rounded "

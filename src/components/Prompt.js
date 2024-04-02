@@ -241,7 +241,7 @@ const Prompt = () => {
         
 
       </div>
-      <div className="border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
+      {/* <div className="border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
       <div onClick={() => setShowBulkResult(!showBulkResult) } 
       className="flex justify-between gap-6 items-center">
       <button
@@ -263,9 +263,9 @@ const Prompt = () => {
         
 
             {showBulkResult && <ResultBulk/>}
-        </div>
+        </div> */}
 
-      <div className="flex justify-between items-center border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
+      {/* <div className="flex justify-between items-center border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
           <button
             className="text-3xl font-bold"
             onClick={() => setShowQueue(!showQueue)}
@@ -281,7 +281,7 @@ const Prompt = () => {
             </button>
         </div>
 
-        {showQueue && <QueueInference/>}
+        {showQueue && <QueueInference/>} */}
     </div>
   );
 };
