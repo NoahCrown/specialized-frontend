@@ -12,16 +12,16 @@ const QueueInference = () => {
       <div className="flex gap-6">
         <button
           onClick={() => setShowIsCompleted(false)}
-          className={`hover:underline text-[1rem] ${
-            !showCompleted ? "text-black font-bold underline" : "text-[#919191]"
+          className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            !showCompleted ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
           } `}
         >
             In Progress
         </button>
         <button
           onClick={() => setShowIsCompleted(true)}
-          className={`hover:underline text-[1rem] ${
-            showCompleted ? "text-black font-bold underline" : "text-[#919191]"
+          className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            showCompleted ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
           } `}
         >
           Completed

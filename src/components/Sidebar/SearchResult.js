@@ -12,10 +12,10 @@ const SearchResult = () => {
   const settings = {
     infinite: false,
     speed: 700,
-    slidesToShow: 3,
-    slidesToScroll: 2,
+    slidesToShow: 7,
+    slidesToScroll: 7,
     arrows: false,
-    slidesPerRows: 3,
+    slidesPerRows: 7,
     vertical: true,
     verticalSwiping: false,
     swipeToSlide: true,
@@ -43,13 +43,16 @@ const SearchResult = () => {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center px-10 mb-3">
-        <p>{isInferenceResultShowing ? 'Inference Results' : 'Result'}</p>
-        <button onClick={toggleInferenceResult} className="px-4 border border-black text-black rounded-md hover:border-black hover:text-black hover:cursor-pointer">
-          <i className="fa-solid fa-shuffle"></i>
-        </button>
+      <div className="flex justify-start items-center px-10 mb-3 gap-4">
+        <p onClick={toggleInferenceResult}  className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            !isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
+          } `}>Result</p>
+        <p onClick={toggleInferenceResult} className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+            isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
+          } `}>Inference Results</p>
+
       </div>
-      <div className="min-h-fit">
+      <div className="min-h-fit p-4">
         {hasData ? (
           <Slider ref={sliderRef} {...settings}>
             {currentData.map(renderPDFInfo)}

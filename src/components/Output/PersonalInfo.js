@@ -9,7 +9,7 @@ const PersonalInfo = () => {
       } = useCandidate();
   return (
     <div className="text-black border-solid border-b-2 border-[#E7E7E7] w-full py-2">
-        <p className="text-black py-2 font-semibold">Personal Information</p>
+        <p className="text-black py-2 font-semibold">Personal</p>
         <p className="w-1/4 inline-block">First Name:</p>
         <span className="text-[#919191] w-3/4 inline-block">
           {promptResult[0].firstName || 'N/A'}

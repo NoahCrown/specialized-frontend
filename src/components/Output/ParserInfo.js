@@ -45,14 +45,14 @@ const ParserInfo = () => {
   return (
     <>
       {promptResult && (
-        <div className="flex justify-between border-4 border-solid border=[#919191] px-4 py-2 rounded-md items-center mb-2">
+        <div className="flex justify-between border-[3px] border-solid border=[#919191] px-4 py-2 rounded-md items-center mb-2">
           <p className="text-[#919191] italic text-[1rem]">
             {mode === "CV" || mode === "CV_bullhorn" ? "Parsed with Offshorly parser" : "Parsed with Bullhorn"}
           </p>
 
           {mode === "bullhorn" && isNewData ? (
             <button
-              className="border border-black border-solid text-black bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+              className="border font-bold border-black border-solid text-black bg-[#F5F5F5] w-1/4 rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
               onClick={handleParseBullhornData}
             >
               <i className="fa-solid fa-code"></i> Parse

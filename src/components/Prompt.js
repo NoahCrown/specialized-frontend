@@ -159,27 +159,15 @@ const Prompt = () => {
     <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
 
       <div className=" flex flex-col gap-6 border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6">
-        <div className="flex justify-between gap-5 items-center ">
+        <div onClick={() => setShowPromptInput(!showPromptInput)}  className="flex justify-between gap-5 items-center ">
           <button
             className="text-3xl font-bold"
-            onClick={() => setShowPromptInput(!showPromptInput)}
+            
           >
             Prompt
           </button>
           <div className="flex justify-center items-center gap-6">
-            <select
-              className="border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1"
-              value={dataToInfer}
-              defaultValue="age"
-              onChange={handleOnChange}
-            >
-              <option value="" disabled selected>
-                Select a data to infer
-              </option>
-              <option value="age">Age</option>
-              <option value="languageSkills">Language Skills EN</option>
-              <option value="location">Location</option>
-            </select>
+            
             <button onClick={() => setShowPromptInput(!showPromptInput)}>
               <i
                 className={`fa-solid fa-angle-${
@@ -191,12 +179,25 @@ const Prompt = () => {
         </div>
         {showPromptInput && (
           <div>
-            <div className="flex justify-center items-center mb-4">
+            <div className="flex justify-start items-center mb-4 gap-1">
+            <select
+              className=" w-1/2 border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1 "
+              value={dataToInfer}
+              defaultValue="age"
+              onChange={handleOnChange}
+            >
+              <option value="" disabled selected>
+                Select a data to infer
+              </option>
+              <option value="age">Age</option>
+              <option value="languageSkills">Language Skills EN</option>
+              <option value="location">Location</option>
+            </select>
               <button
                 onClick={addPromptInput}
-                className="border border-[#ababab] border-dashed text-[#ababab] bg-[#F5F5F5] w-full rounded-md px-[.8rem] py-[.4rem] hover:border-black hover:text-black hover:cursor-pointer"
+                className=" text-black bg-[#F5F5F5] w-1/3 rounded-md  hover:border-black hover:text-black hover:cursor-pointer font-semibold "
               >
-                <i className="fa-solid fa-plus"></i> Add a new prompt
+                <i class="fa-solid fa-circle-plus mr-1"></i> Add new prompt
               </button>
             </div>
             <div>

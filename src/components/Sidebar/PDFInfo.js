@@ -80,27 +80,27 @@ const PDFInfo = ({
   };
 
   return (
-    <div className="p-3 flex justify-center items-center w-[100%] gap-8 p=4 hover:bg-[#CECECE] mx-[.5rem]">
-      <div className="rounded-full bg-[#D3D3D3] w-[10%] flex justify-center items-start p-2">
+    <div className="flex justify-center items-center w-[100%] gap-4 p-4 hover:bg-[#CECECE] border-2 mb-1 rounded-md">
+      
         <img
-          src={require("../../assets/pdf_icon.png")}
+          src={require("../../assets/pdf.png")}
           alt="pdf-icon"
-          className="w-[70%]"
+          className="max-w-[9%]"
         />
-      </div>
 
       <div className="w-[70%] flex flex-col gap-2 justify-items-start  ">
         <h3 className="font-bold">
           {first_name && last_name ? `${first_name} ${last_name}` : first_name}
         </h3>
-        <p className="text-[#919191]">{status}</p>
-        <button
+        <p className="text-[#919191] italic">Status: {status}</p>
+
+      </div>
+      <button
           className="font-bold underline hover:cursor-pointer text-left"
           onClick={handleClick}
         >
           {active ? "View" : "Run"}
         </button>
-      </div>
     </div>
   );
 };

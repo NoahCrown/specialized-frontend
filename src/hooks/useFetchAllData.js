@@ -19,8 +19,7 @@ const useFetchAllData = (apiUrl) => {
       } catch (error) {
         setError(error);
         console.error('Error:', error);
-      } finally {
-      }
+      } 
     };
 
     fetchData();

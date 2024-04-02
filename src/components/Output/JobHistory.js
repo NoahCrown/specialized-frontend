@@ -43,7 +43,7 @@ const JobHistory = () => {
       {Array.isArray(promptResult[1]?.workHistory)
         ? promptResult[1].workHistory.map((val, index) => (
             <div className="mb-4" key={index}>
-              <p className="w-1/4 inline-block align-top">Company Name: </p>
+              <p className="w-1/4 inline-block align-top">Company: </p>
               <span className="text-[#919191] w-3/4 inline-block">
                 {val.companyName || "N/A"}
               </span>
@@ -76,7 +76,7 @@ const JobHistory = () => {
         : Array.isArray(promptResult[1])
         ? promptResult[1].map((val, index) => (
             <div className="mb-4" key={index}>
-              <p className="w-1/4 inline-block align-top">Company Name: </p>
+              <p className="w-1/4 inline-block align-top">Company: </p>
               <span className="text-[#919191] w-3/4 inline-block">
                 {val.companyName || "N/A"}
               </span>

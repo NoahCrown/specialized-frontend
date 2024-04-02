@@ -23,8 +23,7 @@ const Searchbar = () => {
     };
 
     return (
-        <div className="flex justify-center items-center flex-col gap-2 w-[80%] py-4 border-solid border-b-2 border-[#E7E7E7]">
-            <label className="text-[.80rem] text-[#8F8F8F] w-full text-left">Search by name</label>
+        <div className="flex justify-center items-center flex-col gap-2 w-[100%] py-4 border-solid border-b-2 border-[#E7E7E7]">
             <div className="border-solid border-2 border-[#E7E7E7] w-full flex flex-row justify-between items-center gap-4 p-2">
                 <input
                     value={inputValue}

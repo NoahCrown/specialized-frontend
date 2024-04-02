@@ -11,7 +11,7 @@ const Output = () => {
 
   return (
     <div className=" overflow-scroll no-scrollbar w-[37.5%] bg-[#F5F5F5]  flex  p-6 flex-col gap-4 max-h-[145vh]  min-h-[145vh] border-r-2 border-solid border-[#D1D5DB]">
-      <div className="mt-10">
+      <div className="">
         <OutputButtons />
 
         {promptResult ? (

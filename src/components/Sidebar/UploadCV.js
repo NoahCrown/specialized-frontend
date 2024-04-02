@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useCandidate } from "../../store/Context";
 import { toast } from "react-toastify";
-import { uploadFile } from '../../services/apiServices'; // Make sure to import correctly
+import { uploadFile } from "../../services/apiServices"; // Make sure to import correctly
 
 const UploadCV = () => {
   const fileInputRef = useRef(null);
@@ -13,7 +13,7 @@ const UploadCV = () => {
     setDataLoader,
     setLoaderDetails,
     setCandidate,
-    clearOutput
+    clearOutput,
   } = useCandidate();
 
   const handleDivClick = () => {
@@ -67,11 +67,16 @@ const UploadCV = () => {
       setUploadFile(file);
       toast.success("File added successfully");
     }
+
+  };
+
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
   };
   return (
-    <div className="flex justify-center items-center flex-col p-3 w-[80%] px-4 border-solid border-b-2 border-[#E7E7E7]">
+    <div className="flex justify-center items-center flex-col p-3 w-[100%] px-4 border-solid border-b-2 border-[#E7E7E7]">
       <div className="w-[100%] flex flex-col">
-        <div className="rounded-sm border-dashed border-2 border-[#E7E7E7] w-[100%] h-[20vh] flex flex-col justify-center items-center p-10 gap-2">
+        <div className="rounded-sm border-dashed border-2 border-[#E7E7E7] w-[100%] h-[5vh] flex justify-start items-center py-8 px-4 gap-2">
           <div
             className="flex flex-col justify-center items-center"
             onClick={handleDivClick}
@@ -80,16 +85,14 @@ const UploadCV = () => {
           >
             {selectedFile ? (
               <>
-                <div className="flex flex-row justify-center items-center gap-5 w-full ">
-                  <div className="rounded-full bg-[#D3D3D3] min-w-[20%] max-w-[20%] flex justify-center items-center p-2">
+                <div className="flex flex-row justify-center items-center w-full gap-5 ">
                     <img
-                      src={require("../../assets/pdf_icon.png")}
+                      src={require("../../assets/pdf.png")}
                       alt="pdf-icon"
-                      className="w-[80%]"
+                      className="max-w-[80%]"
                     />
-                  </div>
-                  <p className="text-[.75rem] min-w-[60%] max-w-[60%] break-words">
-                    {selectedFile.name}
+                  <p className="text-[.75rem]  break-words">
+                  {truncateText(selectedFile.name, 15)}
                   </p>
 
                   <i
@@ -100,7 +103,6 @@ const UploadCV = () => {
               </>
             ) : (
               <>
-                <img src={require("../../assets/upload.jpg")} alt="upload"></img>
                 <input
                   type="file"
                   accept="application/pdf"
@@ -109,34 +111,28 @@ const UploadCV = () => {
                   onChange={handleFileChange}
                   ref={fileInputRef}
                 />
-                
-                <label id="upload-text" className="text-center">
-                  <span class="text-[.75rem] text-[#919191] block " id="upload-click">
-                    Upload a CV from your computer
-                  </span>
-                  <span class="text-[.75rem] text-[#919191] text-center" id="upload-click">
-                    Click on me to upload
 
-                  </span>
-                </label>
+                <p className="text-[#7E7E7E]">
+                  <span className="bg-black text-white px-5 py-3 rounded-md hover:cursor-pointer mr-2">
+                    Browse
+                  </span>{" "}
+                     or drop files here
+                </p>
               </>
             )}
           </div>
 
-          {
-  selectedFile && 
-  <button
-            className="rounded-md bg-black text-white px-8 font-bold py-3 text-[.75rem]"
-            onClick={handleUpload}
-          >
-
-          Upload</button>
-       
-          
-}
-
+          {selectedFile && (
+            <button
+              className="rounded-md bg-black text-white px-8 font-bold py-3 text-[.75rem]"
+              onClick={handleUpload}
+            >
+              Upload
+            </button>
+          )}
         </div>
       </div>
+      <p className="text-[#7E7E7E] text-[.9rem] mt-4">Accepted Files: PDF, DOCX. Max file size: 10MB</p>
     </div>
   );
 };
