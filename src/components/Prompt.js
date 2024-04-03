@@ -39,7 +39,7 @@ const Prompt = () => {
         const response = await axios.post(`/api/get_prompt/${i}`, {
           dataToInfer: dataInfer,
         });
-
+        console.log(response.data.prompt)
         return response.data.prompt;
       } catch (err) {
         console.log(err);
@@ -51,6 +51,8 @@ const Prompt = () => {
         const response = await axios.post("/api/load_prompt", {
           dataToInfer: null,
         });
+
+        console.log(response.data)
 
         if (response.data) {
           await setSavedPromptsData(response.data);
