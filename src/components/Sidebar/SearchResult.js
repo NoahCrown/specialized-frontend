@@ -50,12 +50,13 @@ const SearchResult = () => {
   return (
     <div className="w-full">
       <div className="flex justify-start items-center px-10 mb-3 gap-4">
-        <p onClick={toggleInferenceResult}  className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+        <p className="hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem]">Results</p>
+        {/* <p onClick={toggleInferenceResult}  className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
             !isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
-          } `}>Result</p>
-        <p onClick={toggleInferenceResult} className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
+          } `}>Result</p> */}
+        {/* <p onClick={toggleInferenceResult} className={`hover:border-b-[3px] hover:border-[#F9BD44] text-[1rem] ${
             isInferenceResultShowing ? "text-black font-bold border-b-[3px] border-[#F9BD44]" : "text-[#919191]"
-          } `}>Inference Results</p>
+          } `}>Inference Results</p> */}
 
       </div>
       <div className="min-h-fit flex flex-col justify-start p-4">

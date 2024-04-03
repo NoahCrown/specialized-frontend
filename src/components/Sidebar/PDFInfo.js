@@ -61,6 +61,15 @@ const PDFInfo = ({
           console.log('works')   
         }
 
+        if ( languageSkills) {
+          newData.languageSkills = languageSkills
+          console.log('works')
+        }
+
+        if (Location) {
+          newData.inferredLocation = { Location, locationConfidence };       
+        }
+
         // if (Age && ageConfidence){
         //   newData.inferredAge = {Age, ageConfidence}
         //   console.log('works')
@@ -68,12 +77,12 @@ const PDFInfo = ({
         //   newData.inferredAge = { Age: result.Age, ageConfidence: result.confidence };
         // }
 
-        if ( languageSkills) {
-          newData.languageSkills = languageSkills
-          console.log('works')
+        // if ( languageSkills) {
+        //   newData.languageSkills = languageSkills
+        //   console.log('works')
         // }else if (result.languageSkills){
         //   newData.languageSkills = result.languageSkills
-        }
+        // }
 
 
       
