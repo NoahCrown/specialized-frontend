@@ -21,6 +21,9 @@ const Prompt = () => {
     setSavedPromptsData,
   } = useCandidate();
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+
   const [unsavedAgePrompts, setUnsavedAgePrompts] = useState([]);
   const [unsavedLangPrompts, setUnsavedLangPrompts] = useState([]);
   const [unsavedLocPrompts, setUnsavedLocPrompts] = useState([]);
@@ -39,7 +42,7 @@ const Prompt = () => {
 
     const loadPromptData = async () => {
       try {
-        const response = await axios.post("/api/load_prompt", {
+        const response = await axios.post(`${API_BASE_URL}/api/load_prompt`, {
           dataToInfer: null,
         });
 
