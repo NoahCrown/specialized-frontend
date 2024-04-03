@@ -183,3 +183,29 @@ export const deletePrompt = async (id, dataToInfer) => {
       throw error; // Allows for custom error handling in the component
     }
   };
+
+  export const loadSavedPrompts = async (dataInfer, i) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/get_prompt/${i}`, {
+        dataToInfer: dataInfer,
+      });
+      console.log(response.data.prompt)
+      return response.data.prompt;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  export const loadPrompts = async() => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/load_prompt`, {
+        dataToInfer: null,
+      });
+      console.log(response.data)
+      return response.data
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }

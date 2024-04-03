@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCandidate } from "../store/Context";
+import { loadSavedPrompts, loadPrompts } from "../services/apiServices";
 
 import axios from "axios";
 
@@ -34,17 +35,7 @@ const Prompt = () => {
   };
 
   useEffect(() => {
-    const loadSavedPrompts = async (dataInfer, i) => {
-      try {
-        const response = await axios.post(`/api/get_prompt/${i}`, {
-          dataToInfer: dataInfer,
-        });
-        console.log(response.data.prompt)
-        return response.data.prompt;
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  
 
     const loadPromptData = async () => {
       try {
