@@ -332,6 +332,15 @@ const setCompleted = (job) => {
 };
 
 
+const [isMoribianQAOpen, setIsMoribianQAOpen] = useState(false)
+
+const openMoribianQA= () => {
+  console.log("Opened Moribian QA")
+  setIsMoribianQAOpen(prevState => !prevState)
+
+}
+
+
 
 
 
@@ -400,7 +409,9 @@ const setCompleted = (job) => {
         setPending,
         setCompleted,
         inferenceResult,
-        setInferenceData
+        setInferenceData,
+        isMoribianQAOpen, 
+        openMoribianQA
       }}
     >
       {children}
