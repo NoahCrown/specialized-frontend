@@ -16,7 +16,7 @@ function MoribianQA() {
   const handleClick = async () => {
     setLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:10000/api/qa', { data: toImproveJobSpec });
+      const response = await axios.post('https://specialized-backend-ubuq.onrender.com/api/qa', { data: toImproveJobSpec });
       setResponseData(response.data);
     } catch (error) {
       console.log(error);
