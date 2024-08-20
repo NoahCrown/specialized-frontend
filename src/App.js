@@ -9,8 +9,9 @@ import ModalLoader from "./components/ModalLoader";
 import PushToBullorn from "./components/Output/PushToBullorn";
 import SimpleAuth from "./components/Auth/SimpleAuth";
 import useFetchAllData from './hooks/useFetchAllData'; 
+import MoribianQA from './components/Moribian QA/MoribianQA';
 function App() {
-  const { setAllData, isPushingToBullhorn, isAuthorized, isLoading } = useCandidate();
+  const { setAllData, isPushingToBullhorn, isAuthorized, isLoading, isMoribianQAOpen } = useCandidate();
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
   
   // Use the custom hook to fetch data
@@ -37,6 +38,8 @@ function App() {
           <Prompt/>
         </>
       ) : <SimpleAuth/>}
+
+      {isMoribianQAOpen && <MoribianQA/> }
       <ToastContainer/> 
     </div>
   );

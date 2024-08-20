@@ -42,9 +42,7 @@ const Prompt = () => {
 
     const loadPromptData = async () => {
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/load_prompt`, {
-          dataToInfer: null,
-        });
+        const response = await loadPrompts()
 
         console.log(response.data)
 
@@ -152,7 +150,7 @@ const Prompt = () => {
   };
 
   return (
-    <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[145vh]  min-h-[145vh] ">
+    <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[100vh]  min-h-[100vh] ">
 
       <div className=" flex flex-col gap-6 border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6">
         <div onClick={() => setShowPromptInput(!showPromptInput)}  className="flex justify-between gap-5 items-center ">

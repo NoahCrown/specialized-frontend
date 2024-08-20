@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
+console.log(API_BASE_URL)
 
 // Function to enqueue data
 
