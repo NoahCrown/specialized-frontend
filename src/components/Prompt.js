@@ -23,14 +23,23 @@ const Prompt = () => {
 
   const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-
   const [unsavedAgePrompts, setUnsavedAgePrompts] = useState([]);
   const [unsavedLangPrompts, setUnsavedLangPrompts] = useState([]);
   const [unsavedLocPrompts, setUnsavedLocPrompts] = useState([]);
 
   const [showQueue, setShowQueue] = useState(false);
   const [showPromptInput, setShowPromptInput] = useState(false);
-  const [showBulkResult, setShowBulkResult] = useState(false)
+  const [showBulkResult, setShowBulkResult] = useState(false);
+
+  // Default prompt values for each category
+  const defaultPrompts = {
+    age: "Your task is to infer the candidate's age and include your confidence in the inferred data. The output should be a JSON object only, formatted according to the provided example. Populate the values in this JSON object, and ensure that only the JSON object is returned. The candidate's date of birth is in epoch timestamp format. Do not provide any explanations, sample data, or additional information. Return only the JSON object with the appropriate values inserted.",
+    
+    languageSkills: "Your task is to infer the candidate's proficiency in English and Japanese, including your confidence in the inferred data. The output should be a JSON object only, formatted according to the provided example. Populate the values in this JSON object, and ensure that only the JSON object is returned. Do not include any explanations, sample data, or additional information. Return only the JSON object with the appropriate values inserted.",
+    
+    location: "Your task is to infer the candidate's location and include your confidence in the inferred data. The output should be a JSON object only, formatted according to the provided example. Populate the values in this JSON object, and ensure that only the JSON object is returned. Do not provide explanations, sample data, or any other additional information. Only return the JSON object with the appropriate values inserted.",
+};
+
 
   const handleOnChange = async (event) => {
     const val = event.target.value;
@@ -38,13 +47,11 @@ const Prompt = () => {
   };
 
   useEffect(() => {
-  
-
     const loadPromptData = async () => {
       try {
-        const response = await loadPrompts()
+        const response = await loadPrompts();
 
-        console.log(response.data)
+        console.log(response.data);
 
         if (response.data) {
           await setSavedPromptsData(response.data);
@@ -57,7 +64,7 @@ const Prompt = () => {
                 <PromptInput
                   id={id}
                   key={`age${id}`}
-                  prompt={dataPrompt}
+                  prompt={dataPrompt || defaultPrompts.age}
                   label={id}
                 />
               );
@@ -72,7 +79,7 @@ const Prompt = () => {
                 <PromptInput
                   id={id}
                   key={`lang${id}`}
-                  prompt={dataPrompt}
+                  prompt={dataPrompt || defaultPrompts.languageSkills}
                   label={id}
                 />
               );
@@ -89,7 +96,7 @@ const Prompt = () => {
                 <PromptInput
                   id={id}
                   key={`loc${id}`}
-                  prompt={dataPrompt}
+                  prompt={dataPrompt || defaultPrompts.location}
                   label={id}
                 />
               );
@@ -103,7 +110,7 @@ const Prompt = () => {
     };
 
     loadPromptData();
-  }, [dataToInfer,]);
+  }, [dataToInfer]);
 
   const addPromptInput = () => {
     if (dataToInfer === "age") {
@@ -113,6 +120,7 @@ const Prompt = () => {
         <PromptInput
           key={newIndex}
           index={newIndex}
+          prompt={defaultPrompts.age} // Initialize with default prompt
           onDelete={deleteUnsavedPrompt}
         />,
       ]);
@@ -123,6 +131,7 @@ const Prompt = () => {
         <PromptInput
           key={newIndex}
           index={newIndex}
+          prompt={defaultPrompts.languageSkills} // Initialize with default prompt
           onDelete={deleteUnsavedPrompt}
         />,
       ]);
@@ -133,6 +142,7 @@ const Prompt = () => {
         <PromptInput
           key={newIndex}
           index={newIndex}
+          prompt={defaultPrompts.location} // Initialize with default prompt
           onDelete={deleteUnsavedPrompt}
         />,
       ]);
@@ -151,17 +161,13 @@ const Prompt = () => {
 
   return (
     <div className="bg-[#F5F5F5]  pt-0 flex flex-col justify-start w-[37.5%] no-scrollbar overflow-scroll max-h-[100vh]  min-h-[100vh] ">
-
       <div className=" flex flex-col gap-6 border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6">
-        <div onClick={() => setShowPromptInput(!showPromptInput)}  className="flex justify-between gap-5 items-center ">
-          <button
-            className="text-3xl font-bold"
-            
-          >
-            Prompt
-          </button>
+        <div
+          onClick={() => setShowPromptInput(!showPromptInput)}
+          className="flex justify-between gap-5 items-center "
+        >
+          <button className="text-3xl font-bold">Prompt</button>
           <div className="flex justify-center items-center gap-6">
-            
             <button onClick={() => setShowPromptInput(!showPromptInput)}>
               <i
                 className={`fa-solid fa-angle-${
@@ -174,24 +180,24 @@ const Prompt = () => {
         {showPromptInput && (
           <div>
             <div className="flex justify-start items-center mb-4 gap-1">
-            <select
-              className=" w-1/2 border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1 "
-              value={dataToInfer}
-              defaultValue="age"
-              onChange={handleOnChange}
-            >
-              <option value="" disabled selected>
-                Select a data to infer
-              </option>
-              <option value="age">Age</option>
-              <option value="languageSkills">Language Skills EN</option>
-              <option value="location">Location</option>
-            </select>
+              <select
+                className=" w-1/2 border border-[#ababab] border-dashed text-[#ababab] text-center hover:border-black hover:text-black hover:cursor-pointer p-1 "
+                value={dataToInfer}
+                defaultValue="age"
+                onChange={handleOnChange}
+              >
+                <option value="" disabled selected>
+                  Select a data to infer
+                </option>
+                <option value="age">Age</option>
+                <option value="languageSkills">Language Skills EN</option>
+                <option value="location">Location</option>
+              </select>
               <button
                 onClick={addPromptInput}
                 className=" text-black bg-[#F5F5F5] w-1/3 rounded-md  hover:border-black hover:text-black hover:cursor-pointer font-semibold "
               >
-                <i class="fa-solid fa-circle-plus mr-1"></i> Add new prompt
+                <i className="fa-solid fa-circle-plus mr-1"></i> Add new prompt
               </button>
             </div>
             <div>
@@ -229,53 +235,7 @@ const Prompt = () => {
             </div>
           </div>
         )}
-
-
-
-        
-
       </div>
-      {/* <div className="border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
-      <div onClick={() => setShowBulkResult(!showBulkResult) } 
-      className="flex justify-between gap-6 items-center">
-      <button
-            className="text-3xl font-bold"
-            onClick={() => setShowBulkResult(!showBulkResult)}
-          >
-            Bulk Inference Result
-          </button>
-          <button onClick={() => setShowBulkResult(!showBulkResult)}>
-              <i
-                className={`fa-solid fa-angle-${
-                  showBulkResult ? "up" : "down"
-                }`}
-              ></i>
-            </button>
-      
-
-      </div>
-        
-
-            {showBulkResult && <ResultBulk/>}
-        </div> */}
-
-      {/* <div className="flex justify-between items-center border border-solid border-b-[.2rem] border-t-[.2rem] border-r-0 border-l-0 p-6 ">
-          <button
-            className="text-3xl font-bold"
-            onClick={() => setShowQueue(!showQueue)}
-          >
-            Queue
-          </button>
-          <button onClick={() => setShowQueue(!showQueue)}>
-              <i
-                className={`fa-solid fa-angle-${
-                  showQueue ? "up" : "down"
-                }`}
-              ></i>
-            </button>
-        </div>
-
-        {showQueue && <QueueInference/>} */}
     </div>
   );
 };

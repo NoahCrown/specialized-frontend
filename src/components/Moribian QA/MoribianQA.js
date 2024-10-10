@@ -1,85 +1,128 @@
+import React, { useState } from "react";
 import axios from "axios";
-import { useState } from "react";
-import logo from '../../assets/specialized_icon.png';
 import { useCandidate } from "../../store/Context";
+import logo from '../../assets/specialized_icon.png';
+
+const PLACEHOLDER = `**Job Title:** Senior Software Engineer 
+
+**Industry:** Technology
+
+**Job Description:**
+
+We are representing a leading tech company in their search for a talented Senior Software Engineer. This role offers an exceptional opportunity for a seasoned professional to work with cutting-edge technology and contribute to the development of innovative software solutions. The company provides a competitive salary, flexible working hours, and health benefits.
+
+**Responsibilities:**
+
+- Design, code, and debug complex software applications.
+- Integrate software with existing systems.
+- Evaluate and identify new technologies for implementation.
+- Work with cloud platforms like AWS or Azure.
+- Collaborate with cross-functional teams to define, design, and ship new features.
+- Work on bug fixing and improving application performance.
+
+**Qualifications:**
+
+- Minimum 7 years of experience in Software Development.
+- Proficient in cloud platforms like AWS or Azure.
+- Excellent problem-solving skills.
+- Strong knowledge of software implementation best practices.
+- Highly proficient in software engineering languages and tools; ability to quickly learn new technologies.
+
+Turn your passion for technology into a successful career. Apply today!`;
 
 function MoribianQA() {
-  const PLACEHOLDER = "**Job Title:** Senior Software Engineer \n\n**Industry:** Technology\n\n**Job Description:**\n\nWe are representing a leading tech company in their search for a talented Senior Software Engineer. This role offers an exceptional opportunity for a seasoned professional to work with cutting-edge technology and contribute to the development of innovative software solutions. The company provides a competitive salary, flexible working hours, and health benefits.\n\n**Responsibilities:**\n\n- Design, code, and debug complex software applications.\n- Integrate software with existing systems.\n- Evaluate and identify new technologies for implementation.\n- Work with cloud platforms like AWS or Azure.\n- Collaborate with cross-functional teams to define, design, and ship new features.\n- Work on bug fixing and improving application performance.\n\n**Qualifications:**\n\n- Minimum 7 years of experience in Software Development.\n- Proficient in cloud platforms like AWS or Azure.\n- Excellent problem-solving skills.\n- Strong knowledge of software implementation best practices.\n- Highly proficient in software engineering languages and tools; ability to quickly learn new technologies.\n\nTurn your passion for technology into a successful career. Apply today!";
-
   const { openMoribianQA } = useCandidate();
   const [responseData, setResponseData] = useState(null);
   const [toImproveJobSpec, setToImproveJobSpec] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleClick = async () => {
+  const handleImprove = async () => {
     setLoading(true);
     try {
       const response = await axios.post('http://127.0.0.1:10000/api/qa', { data: toImproveJobSpec });
       setResponseData(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error improving job spec:", error);
+      // TODO: Add error handling UI
     } finally {
       setLoading(false);
     }
-  }
-
-  const handleChange = (event) => {
-    setToImproveJobSpec(event.target.value);
   };
 
   const handleSave = () => {
-    // This function will be implemented in the future to save data to the vector store
     console.log("Saving data to vector store:", responseData);
-    // You can add your save logic here in the future
+    // TODO: Implement save logic
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl w-11/12 h-5/6 flex flex-col p-6">
-        <div className="flex justify-between items-center mb-4">
-          <img src={logo} alt="Specialized Icon" className="w-40" />
-          <button onClick={openMoribianQA} className="bg-gray-200 rounded-full p-2 hover:bg-gray-300 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
+        <Header logo={logo} onClose={openMoribianQA} />
         <div className="flex flex-1 gap-6 overflow-hidden">
-          <div className="w-1/2 flex flex-col">
-            <textarea
-              className="flex-1 p-4 border rounded-md resize-none mb-4"
-              placeholder={PLACEHOLDER}
-              value={toImproveJobSpec}
-              onChange={handleChange}
-            />
-            <div className="flex gap-3">
-              <button
-                className="bg-black text-white p-2 rounded-md font-bold transition-transform transform hover:scale-105 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed flex-grow"
-                onClick={handleClick}
-                disabled={loading || !toImproveJobSpec.trim()}
-              >
-                {loading ? 'Improving...' : 'Improve Job Spec'}
-              </button>
-              <button
-                className="bg-green-600 text-white p-2 rounded-md font-bold transition-transform transform hover:scale-105 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={handleSave}
-                disabled={!responseData}
-              >
-                Save Result
-              </button>
-            </div>
-          </div>
-
-          <div className="w-1/2 flex flex-col gap-4 overflow-y-auto">
-            <ResultSection title="Changes" content={responseData?.Changes} />
-            <ResultSection title="Improved Version" content={responseData?.JobDescription} />
-            <ResultSection title="Analysis" content={responseData?.Analysis} />
-          </div>
+          <InputSection
+            value={toImproveJobSpec}
+            onChange={(e) => setToImproveJobSpec(e.target.value)}
+            onImprove={handleImprove}
+            onSave={handleSave}
+            loading={loading}
+            canSave={!!responseData}
+          />
+          <ResultsSection responseData={responseData} />
         </div>
       </div>
-
       {loading && <LoadingSpinner />}
+    </div>
+  );
+}
+
+function Header({ logo, onClose }) {
+  return (
+    <div className="flex justify-between items-center mb-4">
+      <img src={logo} alt="Specialized Icon" className="w-40" />
+      <button onClick={onClose} className="bg-gray-200 rounded-full p-2 hover:bg-gray-300 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
+function InputSection({ value, onChange, onImprove, onSave, loading, canSave }) {
+  return (
+    <div className="w-1/2 flex flex-col">
+      <textarea
+        className="flex-1 p-4 border rounded-md resize-none mb-4"
+        placeholder={PLACEHOLDER}
+        value={value}
+        onChange={onChange}
+      />
+      <div className="flex gap-3">
+        <Button
+          onClick={onImprove}
+          disabled={loading || !value.trim()}
+          className="bg-black text-white hover:bg-gray-800 flex-grow"
+        >
+          {loading ? 'Improving...' : 'Improve Job Spec'}
+        </Button>
+        <Button
+          onClick={onSave}
+          disabled={!canSave}
+          className="bg-green-600 text-white hover:bg-green-700"
+        >
+          Save Result
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function ResultsSection({ responseData }) {
+  return (
+    <div className="w-1/2 flex flex-col gap-4 overflow-y-auto">
+      <ResultSection title="Changes" content={responseData?.Changes} />
+      <ResultSection title="Improved Version" content={responseData?.JobDescription} />
+      <ResultSection title="Analysis" content={responseData?.Analysis} />
     </div>
   );
 }
@@ -92,6 +135,17 @@ function ResultSection({ title, content }) {
         <p className="whitespace-pre-wrap">{content || 'No data available'}</p>
       </div>
     </div>
+  );
+}
+
+function Button({ children, className, ...props }) {
+  return (
+    <button
+      className={`p-2 rounded-md font-bold transition-transform transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
   );
 }
 
